@@ -288,6 +288,8 @@ def _rule_repeated_amount(provider: Provider, claims: list[Claim]) -> list[Fraud
     flagged_pairs: set[tuple[str, float]] = set()
 
     for (category, amount), group in ca_claims.items():
+        if amount == 0:
+            continue  # Zero-amount claims are billing artifacts, not a fraud signal
         if (category, amount) in flagged_pairs:
             continue
 
