@@ -1,0 +1,68 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: alan_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: alan
+      POSTGRES_PASSWORD: alan
+      POSTGRES_DB: alandb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alan -d alandb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: alan_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://alan:alan@postgres:5432/alandb
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:-sk_test_placeholder}
+      DEMO_TOKEN: alanadmin
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: alan_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-pk_test_placeholder}
+      CLERK_SECRET_KEY: ${CLERK_SECRET_KEY:-sk_test_placeholder}
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /login
+      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: /dashboard
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:
