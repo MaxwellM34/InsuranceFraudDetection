@@ -35,12 +35,13 @@ function describeFlagDetails(rule: string, details: Record<string, unknown>, lan
       : `${category}: ${fmt(current_amount)} billed — ${ratio}× the 6-month rolling median (${fmt(median)})`
   }
   if (rule === 'dual_product') {
-    const { member_id, lunettes_amount, lentilles_amount } = details as {
-      member_id: string; lunettes_amount: number; lentilles_amount: number
+    const { dual_ratio, dual_count, active_months } = details as {
+      dual_ratio: number; dual_count: number; active_months: number
     }
+    const pct = Math.round(dual_ratio * 100)
     return lang === 'fr'
-      ? `Membre ${member_id} : Lunettes (${fmt(lunettes_amount)}) et Lentilles (${fmt(lentilles_amount)}) facturées le même mois`
-      : `Member ${member_id}: glasses (${fmt(lunettes_amount)}) and contacts (${fmt(lentilles_amount)}) billed in the same month`
+      ? `Co-facturation Lunettes + Lentilles systématique sur ${dual_count}/${active_months} mois (${pct}%)`
+      : `Systematic glasses + contacts co-billing across ${dual_count}/${active_months} months (${pct}%)`
   }
   if (rule === 'repeated_amount') {
     const { category, amount, occurrences } = details as {
@@ -65,10 +66,10 @@ function getEvidenceClaims(flag: FraudFlag, claims: Claim[]): Claim[] {
   }
 
   if (flag.rule_triggered === 'dual_product') {
-    const { member_id } = flag.details as { member_id: string }
-    return claims.filter(
-      (c) => c.year === flag.year && c.month === flag.month && c.member_id === member_id,
-    )
+    // Consolidated flag — evidence spans all qualifying months stored in details
+    const { months } = flag.details as { months: { year: number; month: number }[] }
+    const monthSet = new Set(months.map((m) => `${m.year}-${m.month}`))
+    return claims.filter((c) => monthSet.has(`${c.year}-${c.month}`))
   }
 
   if (flag.rule_triggered === 'repeated_amount') {
@@ -137,35 +138,61 @@ function EvidencePanel({
     )
   }
 
-  /* ---------- dual_product: same member, both categories ---------- */
+  /* ---------- dual_product: consolidated summary across all qualifying months ---------- */
   if (rule === 'dual_product') {
-    const { member_id, lunettes_amount, lentilles_amount } = details as {
-      member_id: string; lunettes_amount: number; lentilles_amount: number
+    const { dual_ratio, dual_count, active_months, months } = details as {
+      dual_ratio: number
+      dual_count: number
+      active_months: number
+      months: { year: number; month: number; lunettes: number; lentilles: number }[]
     }
-    const lunettes = evidence.filter((c) => c.category === 'Lunettes')
-    const lentilles = evidence.filter((c) => c.category === 'Lentilles')
+    const pct = Math.round(dual_ratio * 100)
+    const totalLunettes = months.reduce((s, m) => s + m.lunettes, 0)
+    const totalLentilles = months.reduce((s, m) => s + m.lentilles, 0)
     return (
       <div className="space-y-3">
-        <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
-          {lang === 'fr'
-            ? `Membre ${member_id} — deux catégories le même mois`
-            : `Member ${member_id} — two categories in the same month`}
-        </p>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-medium text-gray-500">{lang === 'fr' ? 'Lunettes' : 'Glasses'}</p>
-              <span className="text-xs font-bold text-gray-900">{formatCurrency(lunettes_amount)}</span>
-            </div>
-            <ClaimsEvidenceTable claims={lunettes} lang={lang} />
-          </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <p className="text-xs font-medium text-gray-500">{lang === 'fr' ? 'Lentilles' : 'Contacts'}</p>
-              <span className="text-xs font-bold text-gray-900">{formatCurrency(lentilles_amount)}</span>
-            </div>
-            <ClaimsEvidenceTable claims={lentilles} lang={lang} />
-          </div>
+        <div className="flex items-center gap-6 pb-2 border-b border-gray-100">
+          <Stat
+            label={lang === 'fr' ? 'Taux de co-facturation' : 'Co-billing rate'}
+            value={`${dual_count}/${active_months} ${lang === 'fr' ? 'mois' : 'months'} (${pct}%)`}
+            highlight
+          />
+          <Stat label={lang === 'fr' ? 'Total Lunettes' : 'Total glasses'} value={formatCurrency(totalLunettes)} />
+          <Stat label={lang === 'fr' ? 'Total Lentilles' : 'Total contacts'} value={formatCurrency(totalLentilles)} />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-gray-100">
+                <th className="text-left py-1.5 pr-6 text-gray-400 font-semibold uppercase tracking-wide">
+                  {lang === 'fr' ? 'Période' : 'Period'}
+                </th>
+                <th className="text-right py-1.5 pr-6 text-gray-400 font-semibold uppercase tracking-wide">
+                  {lang === 'fr' ? 'Lunettes' : 'Glasses'}
+                </th>
+                <th className="text-right py-1.5 pr-6 text-gray-400 font-semibold uppercase tracking-wide">
+                  {lang === 'fr' ? 'Lentilles' : 'Contacts'}
+                </th>
+                <th className="text-right py-1.5 text-gray-400 font-semibold uppercase tracking-wide">
+                  {lang === 'fr' ? 'Total' : 'Total'}
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {months.map((m) => (
+                <tr key={`${m.year}-${m.month}`} className="hover:bg-gray-50">
+                  <td className="py-1.5 pr-6 text-gray-600 font-medium">
+                    {t.months[m.month - 1]} {m.year}
+                  </td>
+                  <td className="py-1.5 pr-6 text-right text-gray-700">{formatCurrency(m.lunettes)}</td>
+                  <td className="py-1.5 pr-6 text-right text-gray-700">{formatCurrency(m.lentilles)}</td>
+                  <td className="py-1.5 text-right font-semibold text-[#D62839]">
+                    {formatCurrency(m.lunettes + m.lentilles)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     )

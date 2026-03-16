@@ -224,41 +224,85 @@ def _rule_monthly_spike(provider: Provider, claims: list[Claim]) -> list[FraudFl
 
 def _rule_dual_product(provider: Provider, claims: list[Claim]) -> list[FraudFlag]:
     """
-    If the SAME MEMBER is billed for both Lunettes AND Lentilles by this
-    provider in the same calendar month, raise a flag (+30).
+    Detect providers who SYSTEMATICALLY bill both Lunettes AND Lentilles in
+    the same calendar month.
 
-    A provider legitimately serving multiple members can have both product
-    types in a given month — that is normal business. The suspicious pattern
-    is a single member receiving both glasses and contacts in the same month,
-    since insurance plans cover one or the other per benefit period.
+    The intended fraud pattern: an optician adds fictitious contact-lens charges
+    alongside a glasses sale to reduce the patient's "reste à charge" — the
+    insurance absorbs the extra amount while the patient pays less out-of-pocket.
+
+    The ideal check is whether the SAME MEMBER is billed for both products in
+    the same month. However the source data is monthly aggregate totals per
+    provider — individual member IDs are unavailable — so we detect the scheme
+    at the provider level instead.
+
+    A legitimate optician who happens to serve both glasses and contacts
+    customers in the same month will have occasional dual-category months but
+    not systematically. A provider committing this fraud at scale will show both
+    categories together in the vast majority of their active months.
+
+    We therefore only flag months where both categories appear IF the provider's
+    dual-billing rate is ≥ 50 % of their active months. Below that threshold,
+    the co-occurrence is likely coincidental.
+
+    Score: +30 per qualifying dual-billing month.
     """
     flags: list[FraudFlag] = []
 
-    # member_month[(year, month, member_id)] = {category: total_amount}
-    member_month: dict[tuple[int, int, str], dict[str, float]] = defaultdict(
+    # month_categories[(year, month)] = {category: total_amount}
+    month_categories: dict[tuple[int, int], dict[str, float]] = defaultdict(
         lambda: defaultdict(float)
     )
     for claim in claims:
-        member_month[(claim.year, claim.month, claim.member_id)][claim.category] += claim.amount
+        month_categories[(claim.year, claim.month)][claim.category] += claim.amount
 
-    for (year, month, member_id), categories in sorted(member_month.items()):
-        if "Lunettes" in categories and "Lentilles" in categories:
-            flags.append(
-                FraudFlag(
-                    provider=provider,
-                    rule_triggered="dual_product",
-                    score_contribution=30.0,
-                    month=month,
-                    year=year,
-                    details={
-                        "member_id": member_id,
-                        "lunettes_amount": round(categories["Lunettes"], 2),
-                        "lentilles_amount": round(categories["Lentilles"], 2),
-                        "month": month,
-                        "year": year,
-                    },
-                )
-            )
+    active_months = len(month_categories)
+    if active_months == 0:
+        return flags
+
+    dual_months = [
+        (year, month, cats)
+        for (year, month), cats in sorted(month_categories.items())
+        if "Lunettes" in cats and "Lentilles" in cats
+        and cats["Lunettes"] > 0 and cats["Lentilles"] > 0
+    ]
+
+    dual_ratio = len(dual_months) / active_months
+
+    # Only flag if co-billing is systematic, not occasional
+    if dual_ratio < 0.5:
+        return flags
+
+    # One summary flag for the whole pattern.
+    # Score scales with how systematic the co-billing is (50 % → 40 pts, 100 % → 80 pts).
+    score = min(80, round(dual_ratio * 80))
+
+    # Anchor the flag's period to the most recent qualifying month.
+    last_year, last_month, _ = dual_months[-1]
+
+    flags.append(
+        FraudFlag(
+            provider=provider,
+            rule_triggered="dual_product",
+            score_contribution=float(score),
+            month=last_month,
+            year=last_year,
+            details={
+                "dual_ratio": round(dual_ratio, 2),
+                "dual_count": len(dual_months),
+                "active_months": active_months,
+                "months": [
+                    {
+                        "year": y,
+                        "month": m,
+                        "lunettes": round(cats["Lunettes"], 2),
+                        "lentilles": round(cats["Lentilles"], 2),
+                    }
+                    for y, m, cats in dual_months
+                ],
+            },
+        )
+    )
 
     return flags
 

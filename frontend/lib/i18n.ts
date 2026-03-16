@@ -109,7 +109,7 @@ const fr = {
     hideDetails: 'Masquer',
     ruleLabels: {
       monthly_spike: 'Pic mensuel anormal',
-      dual_product: 'Double produit facturé',
+      dual_product: 'Co-facturation systématique',
       repeated_amount: 'Montant identique répété',
     } as Record<string, string>,
   },
@@ -299,7 +299,7 @@ const en: typeof fr = {
     hideDetails: 'Hide',
     ruleLabels: {
       monthly_spike: 'Abnormal monthly spike',
-      dual_product: 'Dual product billed',
+      dual_product: 'Systematic co-billing',
       repeated_amount: 'Repeated identical amount',
     } as Record<string, string>,
   },
