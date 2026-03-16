@@ -30,7 +30,7 @@ class Provider(Model):
     def get_status(self) -> str:
         if self.is_blacklisted:
             return "blacklisted"
-        if self.risk_score < 30:
+        if self.risk_score == 0:
             return "auto_approved"
         if self.risk_score <= 70:
             return "needs_review"

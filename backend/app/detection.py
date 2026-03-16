@@ -128,7 +128,7 @@ async def run_detection() -> dict[str, Any]:
 
         if provider.is_blacklisted:
             summary["score_distribution"]["blacklisted"] += 1
-        elif new_score < 30:
+        elif new_score == 0:
             summary["score_distribution"]["auto_approved"] += 1
         elif new_score <= 70:
             summary["score_distribution"]["needs_review"] += 1
@@ -203,7 +203,7 @@ def _rule_monthly_spike(provider: Provider, claims: list[Claim]) -> list[FraudFl
                     FraudFlag(
                         provider=provider,
                         rule_triggered="monthly_spike",
-                        score_contribution=40.0,
+                        score_contribution=30.0,
                         month=cm,
                         year=cy,
                         details={
@@ -274,8 +274,8 @@ def _rule_dual_product(provider: Provider, claims: list[Claim]) -> list[FraudFla
         return flags
 
     # One summary flag for the whole pattern.
-    # Score scales with how systematic the co-billing is (50 % → 40 pts, 100 % → 80 pts).
-    score = min(80, round(dual_ratio * 80))
+    # Score scales with how systematic the co-billing is (50 % → 25 pts, 100 % → 50 pts).
+    score = min(50, round(dual_ratio * 50))
 
     # Anchor the flag's period to the most recent qualifying month.
     last_year, last_month, _ = dual_months[-1]
@@ -358,7 +358,7 @@ def _rule_repeated_amount(provider: Provider, claims: list[Claim]) -> list[Fraud
                     FraudFlag(
                         provider=provider,
                         rule_triggered="repeated_amount",
-                        score_contribution=30.0,
+                        score_contribution=20.0,
                         month=anchor.month,
                         year=anchor.year,
                         details={

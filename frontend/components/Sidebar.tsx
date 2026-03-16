@@ -58,15 +58,14 @@ export function Sidebar() {
       style={{ backgroundColor: '#1A2440', width: '240px', minWidth: '240px' }}
     >
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-            <span className="text-[#1A2440] font-black text-sm">A</span>
-          </div>
-          <div>
-            <p className="text-white font-bold text-sm leading-tight">Alan</p>
-            <p className="text-white/50 text-xs leading-tight">Fraud Detection</p>
-          </div>
+      <div className="px-5 py-5 border-b border-white/10">
+        <div className="flex items-center gap-3">
+          <img
+            src="/alanlogo.png"
+            alt="Alan"
+            className="h-8 w-auto object-contain brightness-0 invert"
+          />
+          <p className="text-white/50 text-xs leading-tight">Fraud Detection</p>
         </div>
       </div>
 

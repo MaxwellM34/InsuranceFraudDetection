@@ -50,10 +50,9 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white mb-4 shadow-lg">
-            <span className="text-[#1A2440] font-black text-2xl">A</span>
+          <div className="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-white mb-4 shadow-lg">
+            <img src="/alanlogo.png" alt="Alan" className="h-10 w-auto object-contain" />
           </div>
-          <h1 className="text-3xl font-bold text-white">Alan</h1>
           <p className="text-white/60 text-sm mt-1 font-medium tracking-wide uppercase">
             Fraud Detection System
           </p>

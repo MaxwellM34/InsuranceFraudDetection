@@ -3,7 +3,10 @@
     "allow": [
       "Bash(source .venv/bin/activate)",
       "Bash(python3 -c \":*)",
-      "Bash(python3 -m app.seed)"
+      "Bash(python3 -m app.seed)",
+      "Read(//home/max/**)",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)"
     ]
   },
   "defaultMode": "bypassPermissions"
