@@ -208,7 +208,7 @@ section_divider(sl,
     q_num=1,
     q_label="Data Exploration",
     title="What suspicious\npatterns did we find?",
-    description="7 out of 12 providers showed at least one red flag · 4 distinct fraud patterns identified")
+    description="8 out of 12 providers showed at least one red flag · 4 distinct fraud patterns identified")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -220,18 +220,18 @@ header(sl, "Results — Which Providers Look Suspicious?", q_tag="Q1",
 footer(sl)
 
 providers = [
-    ("Les lunettes à Soso",  100, "auto_held",     "Co-billing + spike + repeated + round numbers"),
-    ("Penthievre alambics",  100, "auto_held",     "Co-billing + billing spike + round numbers"),
-    ("Queen optics",         100, "auto_held",     "Co-billing + billing spike + round numbers"),
-    ("Mike lunettes",        100, "auto_held",     "Co-billing + billing spike + round numbers"),
-    ("Runner glasses",       100, "auto_held",     "Co-billing + repeated amounts + round numbers"),
-    ("Kylian's frames",       93, "auto_held",     "Co-billing + billing spike + round numbers"),
-    ("Roudoudou lentilles",   75, "auto_held",     "Co-billing + round numbers"),
-    ("Voodoo optics",          0, "auto_approved", "No suspicious patterns found"),
-    ("abc optics",             0, "auto_approved", "No suspicious patterns found"),
-    ("Cool optics",            0, "auto_approved", "No suspicious patterns found"),
-    ("Dallas optics",          0, "auto_approved", "No suspicious patterns found"),
-    ("22 optics",              0, "auto_approved", "No suspicious patterns found"),
+    ("Queen optics",         99, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Mike lunettes",        96, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Les lunettes à Soso",  84, "auto_held",     "Co-billing + spike + repeated + round numbers"),
+    ("Penthievre alambics",  78, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Runner glasses",       74, "auto_held",     "Co-billing + repeated amounts + round numbers"),
+    ("Kylian's frames",      54, "needs_review",  "Co-billing + billing spike + round numbers"),
+    ("Roudoudou lentilles",  40, "needs_review",  "Co-billing + round numbers"),
+    ("Voodoo",               15, "needs_review",  "Round number billing detected"),
+    ("La classe à Dallas",    0, "auto_approved", "No suspicious patterns found"),
+    ("Cool optics",           0, "auto_approved", "No suspicious patterns found"),
+    ("abc optic",             0, "auto_approved", "No suspicious patterns found"),
+    ("22 optics",             0, "auto_approved", "No suspicious patterns found"),
 ]
 
 xs = [0.3, 4.05, 5.65, 7.55]
@@ -257,7 +257,7 @@ for name, score, status, flags in providers:
     ry += 0.39
 
 rect(sl, 0.3, ry+0.08, 12.73, 0.44, fill=NAVY)
-tb(sl, "7 providers had payments automatically held  ·  0 flagged for manual review  ·  5 cleared",
+tb(sl, "5 providers had payments automatically held  ·  3 flagged for manual review  ·  4 cleared",
    0.5, ry+0.12, 12.3, 0.34, size=10, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
 
@@ -281,9 +281,9 @@ tb(sl, (
 
 # two provider cards
 for xi, name, score, status, pct, n_active, n_dual, extra in [
-    (0.3,  "Kylian's Frames",    68, "needs_review",
+    (0.3,  "Kylian's Frames",    54, "needs_review",
      76, 13, 10, "Also had one month where billings suddenly spiked 5× above normal"),
-    (6.68, "Roudoudou Lentilles", 50, "needs_review",
+    (6.68, "Roudoudou Lentilles", 40, "needs_review",
      100, 12, 12, "Every single active month had both categories — 100% of the time"),
 ]:
     rect(sl, xi, 2.68, 6.28, 4.12, fill=WHITE, line=MGRAY)
@@ -323,9 +323,9 @@ tb(sl, (
 
 # three provider cards
 spike_providers = [
-    ("Mike Lunettes",        100, "auto_held", 3, "85% co-billing rate across all months"),
-    ("Penthievre Alambics",  100, "auto_held", 2, "94% co-billing rate — highest in dataset"),
-    ("Queen Optics",         100, "auto_held", 3, "96% co-billing rate — near-universal"),
+    ("Mike Lunettes",        96, "auto_held", 3, "85% co-billing rate across all months"),
+    ("Penthievre Alambics",  78, "auto_held", 2, "94% co-billing rate — highest in dataset"),
+    ("Queen Optics",         99, "auto_held", 3, "96% co-billing rate — near-universal"),
 ]
 for k, (name, score, status, n_spikes, cobill_note) in enumerate(spike_providers):
     xi = 0.3 + k * 4.32
@@ -373,7 +373,7 @@ tb(sl, (
 rect(sl, 0.3, 2.42, 5.95, 4.38, fill=WHITE, line=MGRAY)
 rect(sl, 0.3, 2.42, 5.95, 0.08, fill=BLUE)
 tb(sl, "Runner Glasses", 0.5, 2.58, 4.4, 0.38, size=14, bold=True, color=NAVY)
-score_pill(sl, 88, 5.2, 2.53, w=0.98, h=0.44)
+score_pill(sl, 74, 5.2, 2.53, w=0.98, h=0.44)
 status_pill(sl, "auto_held", 5.07, 3.04)
 
 tb(sl, "Three separate repeated-amount patterns detected:", 0.5, 3.55, 5.5, 0.32,
@@ -394,14 +394,14 @@ for j, (amt, cat, occ) in enumerate([
     tb(sl, cat, 2.22, 4.3+j*0.38, 1.5, 0.26, size=11, color=DGRAY)
     tb(sl, occ, 3.82, 4.3+j*0.38, 2.1, 0.26, size=11, color=DGRAY)
 
-tb(sl, "Also had co-billing in 55% of months → total score 88",
+tb(sl, "Also had co-billing in 55% of months → total score 74",
    0.5, 5.5, 5.5, 0.32, size=11, bold=True, color=RED)
 
 # Les lunettes à Soso — all 3 patterns
 rect(sl, 6.65, 2.42, 6.35, 4.38, fill=WHITE, line=MGRAY)
 rect(sl, 6.65, 2.42, 6.35, 0.08, fill=RED)
 tb(sl, "Les Lunettes à Soso", 6.85, 2.58, 5.0, 0.38, size=14, bold=True, color=NAVY)
-score_pill(sl, 100, 12.35, 2.53, w=0.92, h=0.44)
+score_pill(sl, 84, 12.35, 2.53, w=0.92, h=0.44)
 status_pill(sl, "auto_held", 12.17, 3.04)
 
 rect(sl, 6.85, 3.55, 6.0, 0.4, fill=RED)
@@ -536,7 +536,7 @@ rule_card(sl, 1, "Billing Spike",
     "Flag any month where a provider's total billings are more than 5× higher than "
     "their own rolling 6-month average for that product category.",
     "current month > 5 × 6-month median",
-    "+30 points per spiked month",
+    "+20 points per spiked month",
     0.3)
 
 rule_card(sl, 2, "Systematic Co-Billing",
@@ -544,21 +544,21 @@ rule_card(sl, 2, "Systematic Co-Billing",
     "majority of their active months (≥ 50%). Occasional overlap is normal; "
     "systematic overlap is not.",
     "≥ 50% of months have both categories",
-    "25–50 pts  (scales with rate)",
+    "12–25 pts  (scales with rate)",
     3.52)
 
 rule_card(sl, 3, "Repeated Identical Amount",
     "Flag any (provider, category) pair where the exact same euro amount appears "
     "3 or more times within any rolling 12-month window. Real billing varies naturally.",
     "same € amount ≥ 3× in 12-month window",
-    "+20 points per pattern",
+    "+15 points per pattern",
     6.74)
 
 rule_card(sl, 4, "Round Number Billing",
-    "Flag providers where ≥ 70% of claims in a category are round numbers "
-    "(whole euros, multiples of 50). Real optical purchases have irregular amounts like 349.91€.",
-    "≥ 70% of claims are multiples of 50",
-    "+25 points per category",
+    "Flag providers where ≥ 70% of claims in a category are whole euro amounts "
+    "(no cents). Real optical purchases have irregular amounts like 349.91€.",
+    "≥ 70% of claims are whole euros",
+    "+15 points per category",
     9.96)
 
 # Routing
@@ -779,13 +779,14 @@ header(sl, "Recommended Actions by Provider", q_tag="Q3",
 footer(sl)
 
 summary = [
-    ("Les lunettes à Soso",  100, "auto_held",    "Co-billing + spike + repeated + rounds", "Immediate audit — 4 independent fraud signals"),
-    ("Penthievre alambics",  100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
-    ("Queen optics",         100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
-    ("Mike lunettes",        100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
-    ("Runner glasses",       100, "auto_held",    "Co-billing + repeated + rounds",          "Audit — round numbers + repeated billing"),
-    ("Kylian's frames",       93, "auto_held",    "Co-billing + spike + rounds",             "Payments held — multiple signals"),
-    ("Roudoudou lentilles",   75, "auto_held",    "Co-billing + rounds",                     "Payments held — systematic round numbers"),
+    ("Queen optics",         99, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Mike lunettes",        96, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Les lunettes à Soso",  84, "auto_held",    "Co-billing + spike + repeated + rounds",  "Immediate audit — 4 independent fraud signals"),
+    ("Penthievre alambics",  78, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Runner glasses",       74, "auto_held",    "Co-billing + repeated + rounds",          "Audit — round numbers + repeated billing"),
+    ("Kylian's frames",      54, "needs_review", "Co-billing + spike + rounds",             "Manual review — multiple signals, below hold threshold"),
+    ("Roudoudou lentilles",  40, "needs_review", "Co-billing + rounds",                     "Manual review — systematic round numbers"),
+    ("Voodoo",               15, "needs_review", "Round number billing",                    "Monitor — low score but pattern present"),
 ]
 
 sxs = [0.3, 3.5, 5.1, 6.95, 9.1]
