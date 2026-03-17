@@ -178,6 +178,7 @@ export default function LoginPage() {
                 </div>
                 <div className="flex justify-center">
                   <SignIn
+                    routing="hash"
                     appearance={{
                       variables: {
                         colorPrimary: '#1A2440',

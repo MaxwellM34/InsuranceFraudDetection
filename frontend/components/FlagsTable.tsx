@@ -52,6 +52,13 @@ function describeGroup(rule: string, ruleFlags: FraudFlag[], lang: 'fr' | 'en'):
       : `${n} repeated identical amount${n > 1 ? 's' : ''} detected`
   }
 
+  if (rule === 'round_number') {
+    const categories = [...new Set(ruleFlags.map((f) => (f.details as { category: string }).category))]
+    return lang === 'fr'
+      ? `Montants ronds systématiques détectés — catégorie${categories.length > 1 ? 's' : ''} : ${categories.join(', ')}`
+      : `Systematic round-number billing detected — categor${categories.length > 1 ? 'ies' : 'y'}: ${categories.join(', ')}`
+  }
+
   return ''
 }
 
@@ -72,6 +79,15 @@ function describeSingleFlag(rule: string, details: Record<string, unknown>, lang
     return lang === 'fr'
       ? `${category} : ${fmt(amount)} × ${occurrences} fois sur 12 mois`
       : `${category}: ${fmt(amount)} × ${occurrences} times in 12 months`
+  }
+  if (rule === 'round_number') {
+    const { category, round_count, total_count, round_rate } = details as {
+      category: string; round_count: number; total_count: number; round_rate: number
+    }
+    const pct = Math.round(round_rate * 100)
+    return lang === 'fr'
+      ? `${category} : ${round_count}/${total_count} réclamations en montants ronds (${pct}%)`
+      : `${category}: ${round_count}/${total_count} claims are round numbers (${pct}%)`
   }
   return ''
 }
@@ -106,6 +122,15 @@ function getEvidenceClaims(flag: FraudFlag, claims: Claim[]): Claim[] {
         Math.abs(c.amount - amount) < 0.01 &&
         seen.has(`${c.year}-${c.month}`),
     )
+  }
+
+  if (flag.rule_triggered === 'round_number') {
+    const { category, months_seen } = d as {
+      category: string
+      months_seen: { year: number; month: number; amount: number }[]
+    }
+    const seen = new Set(months_seen.map((m) => `${m.year}-${m.month}`))
+    return claims.filter((c) => c.category === category && seen.has(`${c.year}-${c.month}`))
   }
 
   return []
@@ -237,6 +262,59 @@ function EvidencePanel({ flag, claims }: { flag: FraudFlag; claims: Claim[] }) {
     )
   }
 
+  if (rule === 'round_number') {
+    const { category, round_count, total_count, round_rate, round_amounts } = details as {
+      category: string; round_count: number; total_count: number; round_rate: number; round_amounts: number[]
+    }
+    const pct = Math.round(round_rate * 100)
+    const sorted = [...evidence].sort((a, b) => a.year !== b.year ? a.year - b.year : a.month - b.month)
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center gap-6 pb-2 border-b border-gray-100">
+          <Stat
+            label={lang === 'fr' ? 'Taux de montants ronds' : 'Round number rate'}
+            value={`${round_count}/${total_count} (${pct}%)`}
+            highlight
+          />
+          <Stat
+            label={lang === 'fr' ? 'Montants ronds vus' : 'Round amounts seen'}
+            value={round_amounts.map((a) => formatCurrency(a)).join(', ')}
+          />
+        </div>
+        {sorted.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="border-b border-gray-100">
+                  <th className="text-left py-1.5 pr-4 text-gray-400 font-semibold uppercase tracking-wide">
+                    {lang === 'fr' ? 'Période' : 'Period'}
+                  </th>
+                  <th className="text-left py-1.5 pr-4 text-gray-400 font-semibold uppercase tracking-wide">
+                    {lang === 'fr' ? 'Membre' : 'Member'}
+                  </th>
+                  <th className="text-right py-1.5 text-gray-400 font-semibold uppercase tracking-wide">
+                    {lang === 'fr' ? 'Montant' : 'Amount'}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {sorted.map((c) => (
+                  <tr key={c.id}>
+                    <td className="py-1.5 pr-4 text-gray-600">{t.months[c.month - 1]} {c.year}</td>
+                    <td className="py-1.5 pr-4 font-mono text-gray-500">{c.member_id}</td>
+                    <td className={`py-1.5 text-right font-semibold ${c.amount % 50 === 0 ? 'text-[#D62839]' : 'text-gray-700'}`}>
+                      {formatCurrency(c.amount)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return null
 }
 
@@ -294,9 +372,14 @@ const RULE_ICON: Record<string, React.ReactNode> = {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
     </svg>
   ),
+  round_number: (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
 }
 
-const RULE_ORDER = ['monthly_spike', 'dual_product', 'repeated_amount']
+const RULE_ORDER = ['monthly_spike', 'dual_product', 'repeated_amount', 'round_number']
 
 export function FlagsTable({ flags, claims = [], isLoading = false }: FlagsTableProps) {
   const { t, lang } = useLang()

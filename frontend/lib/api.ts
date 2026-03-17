@@ -1,6 +1,6 @@
 import { getAuthHeaders } from './auth'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+const BASE_URL = '/api/backend'
 
 export interface Provider {
   id: string
@@ -174,6 +174,10 @@ export async function submitReview(
 
 export async function runDetection(): Promise<{ message: string; providers_updated: number }> {
   return apiFetch('/api/detection/run', { method: 'POST' })
+}
+
+export async function clearAllData(): Promise<{ message: string }> {
+  return apiFetch('/api/claims/clear', { method: 'DELETE' })
 }
 
 export async function importCSV(file: File): Promise<{ message: string; rows_imported: number }> {

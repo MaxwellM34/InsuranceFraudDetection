@@ -111,6 +111,7 @@ const fr = {
       monthly_spike: 'Pic mensuel anormal',
       dual_product: 'Co-facturation systématique',
       repeated_amount: 'Montant identique répété',
+      round_number: 'Montants ronds suspects',
     } as Record<string, string>,
   },
   providerTable: {
@@ -147,6 +148,12 @@ const fr = {
     importSuccess: (n: number) =>
       `Import réussi : ${n} ligne${n > 1 ? 's importées' : ' importée'}`,
     importError: "Erreur lors de l'import",
+    downloadSample: 'Télécharger un exemple',
+  },
+  clearData: {
+    button: 'Effacer les données',
+    confirm: 'Êtes-vous sûr ? Toutes les données seront supprimées définitivement.',
+    success: 'Toutes les données ont été supprimées.',
   },
   statuses: {
     auto_approved: 'Approuvé auto.',
@@ -301,6 +308,7 @@ const en: typeof fr = {
       monthly_spike: 'Abnormal monthly spike',
       dual_product: 'Systematic co-billing',
       repeated_amount: 'Repeated identical amount',
+      round_number: 'Suspicious round number billing',
     } as Record<string, string>,
   },
   providerTable: {
@@ -337,6 +345,12 @@ const en: typeof fr = {
     importSuccess: (n: number) =>
       `Import successful: ${n} row${n > 1 ? 's imported' : ' imported'}`,
     importError: 'Error during import',
+    downloadSample: 'Download sample data',
+  },
+  clearData: {
+    button: 'Clear data',
+    confirm: 'Are you sure? All data will be permanently deleted.',
+    success: 'All data has been cleared.',
   },
   statuses: {
     auto_approved: 'Auto-approved',

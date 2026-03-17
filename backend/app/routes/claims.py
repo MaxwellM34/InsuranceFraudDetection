@@ -138,7 +138,15 @@ async def import_claims(
 
     # Normalise header names to lowercase
     fieldnames_lower = [f.strip().lower() for f in reader.fieldnames]
-    required_columns = {"provider_name", "member_id", "month", "year", "category", "amount"}
+
+    # Detect original case CSV format (HEALTH_PROFESSIONAL_NAME, MONTH_NB, etc.)
+    is_original_format = "health_professional_name" in fieldnames_lower
+
+    if is_original_format:
+        required_columns = {"health_professional_name", "month_nb", "year", "primary_level_1", "sum(alan_covered)"}
+    else:
+        required_columns = {"provider_name", "month", "year", "category", "amount"}
+
     missing = required_columns - set(fieldnames_lower)
     if missing:
         raise HTTPException(
@@ -157,6 +165,16 @@ async def import_claims(
         # Normalise keys
         row = {k.strip().lower(): v.strip() for k, v in raw_row.items() if k}
 
+        # --- Map original format columns to standard names ---
+        if is_original_format:
+            row["provider_name"] = row.get("health_professional_name", "")
+            row["month"] = row.get("month_nb", "")
+            row["category"] = row.get("primary_level_1", "")
+            # Amount uses French decimal comma format e.g. "64,3"
+            raw_amount = row.get("sum(alan_covered)", "").replace(",", ".")
+            row["amount"] = raw_amount
+            row.setdefault("member_id", "")
+
         # --- Validate fields ---
         provider_name = row.get("provider_name", "").strip()
         if not provider_name:
@@ -164,11 +182,7 @@ async def import_claims(
             skipped += 1
             continue
 
-        member_id = row.get("member_id", "").strip()
-        if not member_id:
-            errors.append(f"Row {line_no}: missing member_id")
-            skipped += 1
-            continue
+        member_id = row.get("member_id", "").strip() or f"imported-{line_no}"
 
         try:
             month = int(row.get("month", ""))
@@ -212,6 +226,18 @@ async def import_claims(
             provider_cache[provider_name] = provider_obj
         provider_obj = provider_cache[provider_name]
 
+        # --- Skip duplicates ---
+        exists = await Claim.filter(
+            provider=provider_obj,
+            member_id=member_id,
+            month=month,
+            year=year,
+            category=CategoryEnum(raw_category),
+        ).exists()
+        if exists:
+            skipped += 1
+            continue
+
         # --- Create claim ---
         await Claim.create(
             provider=provider_obj,
@@ -224,3 +250,16 @@ async def import_claims(
         imported += 1
 
     return {"imported": imported, "skipped": skipped, "errors": errors}
+
+
+@router.delete("/clear", tags=["claims"])
+async def clear_all_data(
+    _: dict = Depends(get_current_user),
+) -> dict[str, str]:
+    """Delete all claims, fraud flags, review actions, and providers."""
+    from app.models import FraudFlag, ReviewAction
+    await ReviewAction.all().delete()
+    await FraudFlag.all().delete()
+    await Claim.all().delete()
+    await Provider.all().delete()
+    return {"message": "All data cleared"}

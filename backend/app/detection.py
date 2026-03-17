@@ -1,12 +1,12 @@
 """
 Fraud detection engine.
 
-Three rules are evaluated for every provider:
+Four rules are evaluated for every provider:
 
 1. MONTHLY SPIKE RULE
    For each (provider, category, month/year), compute the 6-month rolling
    median of claim amounts (the 6 months *before* the current month).
-   If current_amount > 5 × median  →  flag, score +40.
+   If current_amount > 5 × median  →  flag, score +30.
 
 2. DUAL PRODUCT RULE
    If a provider bills both Lunettes AND Lentilles in the same calendar
@@ -15,13 +15,20 @@ Three rules are evaluated for every provider:
 3. REPEATED AMOUNT RULE
    If the same euro amount (exact float equality) appears ≥ 3 times within
    a rolling 12-month window for the same (provider, category)  →  flag,
-   score +30.
+   score +20.
+
+4. ROUND NUMBER RULE
+   If ≥ 70% of a provider's claims for a given category are round numbers
+   (whole euros, no cents, multiple of 50) across ≥ 3 claims, flag it.
+   Real optical purchases have irregular amounts (e.g. 349.91€).
+   Systematic round-number billing suggests fabricated charges.
+   Score: +25.
 
 Final risk_score = sum of all score_contributions, capped at 100.
 
 Routing thresholds:
-  score < 30   →  auto_approved
-  30 ≤ score ≤ 70  →  needs_review
+  score = 0    →  auto_approved
+  0 < score ≤ 70  →  needs_review
   score > 70   →  auto_held
 """
 
@@ -81,6 +88,7 @@ async def run_detection() -> dict[str, Any]:
         "monthly_spike_flags": 0,
         "dual_product_flags": 0,
         "repeated_amount_flags": 0,
+        "round_number_flags": 0,
         "total_flags": 0,
         "score_distribution": {
             "auto_approved": 0,
@@ -102,8 +110,9 @@ async def run_detection() -> dict[str, Any]:
         spike_flags = _rule_monthly_spike(provider, claims)
         dual_flags = _rule_dual_product(provider, claims)
         repeat_flags = _rule_repeated_amount(provider, claims)
+        round_flags = _rule_round_number(provider, claims)
 
-        all_flags = spike_flags + dual_flags + repeat_flags
+        all_flags = spike_flags + dual_flags + repeat_flags + round_flags
         flags_to_create.extend(all_flags)
 
         total_score = sum(f.score_contribution for f in all_flags)
@@ -112,6 +121,7 @@ async def run_detection() -> dict[str, Any]:
         summary["monthly_spike_flags"] += len(spike_flags)
         summary["dual_product_flags"] += len(dual_flags)
         summary["repeated_amount_flags"] += len(repeat_flags)
+        summary["round_number_flags"] += len(round_flags)
 
     summary["total_flags"] = len(flags_to_create)
 
@@ -373,5 +383,71 @@ def _rule_repeated_amount(provider: Provider, claims: list[Claim]) -> list[Fraud
                 )
                 flagged_pairs.add((category, amount))
                 break  # One flag per (category, amount) pair is enough
+
+    return flags
+
+
+# ---------------------------------------------------------------------------
+# Rule 4 — Round Number Billing
+# ---------------------------------------------------------------------------
+
+def _rule_round_number(provider: Provider, claims: list[Claim]) -> list[FraudFlag]:
+    """
+    Detect providers who systematically bill round numbers for a category.
+
+    A "round number" is an amount that is a whole number of euros (no cents)
+    AND a multiple of 50 — e.g. 200.00, 300.00, 600.00.
+    Real optical purchases have irregular amounts (e.g. 349.91€, 127.50€).
+
+    If ≥ 70% of a provider's claims for a given category are round numbers,
+    AND there are at least 3 such claims, raise a flag (+25).
+
+    One flag per category that meets the threshold.
+    """
+    flags: list[FraudFlag] = []
+
+    # Group by category
+    by_category: dict[str, list[Claim]] = defaultdict(list)
+    for claim in claims:
+        by_category[claim.category].append(claim)
+
+    for category, cat_claims in by_category.items():
+        if len(cat_claims) < 3:
+            continue
+
+        round_claims = [
+            c for c in cat_claims
+            if c.amount > 0 and c.amount % 50 == 0
+        ]
+        round_rate = len(round_claims) / len(cat_claims)
+
+        if round_rate < 0.70:
+            continue
+
+        # Anchor to the most recent claim
+        latest = max(cat_claims, key=lambda c: (c.year, c.month))
+
+        flags.append(
+            FraudFlag(
+                provider=provider,
+                rule_triggered="round_number",
+                score_contribution=25.0,
+                month=latest.month,
+                year=latest.year,
+                details={
+                    "category": category,
+                    "round_count": len(round_claims),
+                    "total_count": len(cat_claims),
+                    "round_rate": round(round_rate, 2),
+                    "round_amounts": sorted(
+                        {c.amount for c in round_claims}
+                    ),
+                    "months_seen": [
+                        {"year": c.year, "month": c.month, "amount": c.amount}
+                        for c in sorted(round_claims, key=lambda c: (c.year, c.month))
+                    ],
+                },
+            )
+        )
 
     return flags

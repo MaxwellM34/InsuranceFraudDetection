@@ -208,7 +208,7 @@ section_divider(sl,
     q_num=1,
     q_label="Data Exploration",
     title="What suspicious\npatterns did we find?",
-    description="7 out of 12 providers showed at least one red flag · 3 distinct fraud patterns identified")
+    description="7 out of 12 providers showed at least one red flag · 4 distinct fraud patterns identified")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -220,13 +220,13 @@ header(sl, "Results — Which Providers Look Suspicious?", q_tag="Q1",
 footer(sl)
 
 providers = [
-    ("Les lunettes à Soso",  100, "auto_held",     "Co-billing + billing spike + repeated amounts"),
-    ("Penthievre alambics",  100, "auto_held",     "Co-billing + billing spike"),
-    ("Queen optics",         100, "auto_held",     "Co-billing + billing spike"),
-    ("Mike lunettes",        100, "auto_held",     "Co-billing + billing spike"),
-    ("Runner glasses",        88, "auto_held",     "Co-billing + repeated amounts"),
-    ("Kylian's frames",       68, "needs_review",  "Co-billing + billing spike"),
-    ("Roudoudou lentilles",   50, "needs_review",  "Co-billing"),
+    ("Les lunettes à Soso",  100, "auto_held",     "Co-billing + spike + repeated + round numbers"),
+    ("Penthievre alambics",  100, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Queen optics",         100, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Mike lunettes",        100, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Runner glasses",       100, "auto_held",     "Co-billing + repeated amounts + round numbers"),
+    ("Kylian's frames",       93, "auto_held",     "Co-billing + billing spike + round numbers"),
+    ("Roudoudou lentilles",   75, "auto_held",     "Co-billing + round numbers"),
     ("Voodoo optics",          0, "auto_approved", "No suspicious patterns found"),
     ("abc optics",             0, "auto_approved", "No suspicious patterns found"),
     ("Cool optics",            0, "auto_approved", "No suspicious patterns found"),
@@ -257,7 +257,7 @@ for name, score, status, flags in providers:
     ry += 0.39
 
 rect(sl, 0.3, ry+0.08, 12.73, 0.44, fill=NAVY)
-tb(sl, "5 providers had payments automatically held  ·  2 flagged for manual review  ·  5 cleared",
+tb(sl, "7 providers had payments automatically held  ·  0 flagged for manual review  ·  5 cleared",
    0.5, ry+0.12, 12.3, 0.34, size=10, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
 
@@ -423,37 +423,114 @@ tb(sl, "Three separate, independent signals → highest confidence fraud case in
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 8 — Q2 Divider
+# SLIDE 8 — Pattern 4: Round Number Billing
+# ─────────────────────────────────────────────────────────────────────────────
+sl = prs.slides.add_slide(blank)
+header(sl, "Pattern 4 — Systematic Round-Number Billing", q_tag="Q1",
+       subtitle="Providers who consistently bill exact round sums (e.g. 300€, 600€) rather than realistic irregular amounts")
+footer(sl)
+
+# What's suspicious box
+rect(sl, 0.3, 1.55, 12.73, 0.85, fill=RGBColor(0xE8, 0xF4, 0xFD))
+rect(sl, 0.3, 1.55, 0.12, 0.85, fill=BLUE)
+tb(sl, "Why is this suspicious?", 0.55, 1.62, 5.0, 0.32, size=12, bold=True, color=NAVY)
+tb(sl, (
+    "Real optical purchases — glasses frames, lenses, fitting — never add up to a perfectly round number. "
+    "Amounts like €349.91 or €127.50 reflect actual product pricing. When a provider bills €300.00, €600.00, "
+    "€200.00 every single month with no variation in cents, it strongly suggests fabricated charges rather than genuine sales."
+), 0.55, 1.93, 12.1, 0.42, size=11, color=DGRAY, wrap=True)
+
+# Runner Glasses — main example
+rect(sl, 0.3, 2.55, 6.1, 4.2, fill=WHITE, line=MGRAY)
+rect(sl, 0.3, 2.55, 6.1, 0.08, fill=BLUE)
+tb(sl, "Runner Glasses — Contacts billing", 0.5, 2.7, 5.5, 0.38, size=13, bold=True, color=NAVY)
+
+rect(sl, 0.5, 3.18, 5.7, 0.62, fill=LRED)
+tb(sl, "100% of Lentilles claims are round multiples of 100€",
+   0.62, 3.21, 5.45, 0.42, size=13, bold=True, color=RED)
+
+rect(sl, 0.5, 3.92, 5.7, 0.35, fill=NAVY)
+for lbl, xi2 in zip(["Period", "Amount", "Round?"], [0.5, 2.8, 4.7]):
+    tb(sl, lbl, xi2+0.1, 3.94, 1.8, 0.27, size=9, bold=True, color=WHITE)
+
+for j, (period, amt, is_round) in enumerate([
+    ("April 2022",     "300,00 €", True),
+    ("June 2022",      "300,00 €", True),
+    ("September 2022", "300,00 €", True),
+    ("October 2022",   "600,00 €", True),
+    ("December 2022",  "600,00 €", True),
+    ("April 2023",     "200,00 €", True),
+]):
+    bg = LGRAY if j % 2 == 0 else WHITE
+    rect(sl, 0.5, 4.3+j*0.34, 5.7, 0.32, fill=bg)
+    tb(sl, period, 0.62, 4.32+j*0.34, 2.1, 0.24, size=10, color=DGRAY)
+    tb(sl, amt,    2.92, 4.32+j*0.34, 1.7, 0.24, size=10, bold=True, color=RED if is_round else DGRAY)
+    tb(sl, "✓ Round" if is_round else "—", 4.82, 4.32+j*0.34, 1.2, 0.24,
+       size=9, bold=is_round, color=RED if is_round else DGRAY)
+
+# Right panel — comparison + explanation
+rect(sl, 6.6, 2.55, 6.4, 4.2, fill=WHITE, line=MGRAY)
+rect(sl, 6.6, 2.55, 6.4, 0.08, fill=NAVY)
+tb(sl, "Compare: Lunettes (glasses) — same provider", 6.8, 2.7, 6.0, 0.38, size=12, bold=True, color=NAVY)
+tb(sl, "Glasses amounts look realistic — irregular cents, normal price variation",
+   6.8, 3.12, 5.95, 0.32, size=10, color=DGRAY, italic=True)
+
+for j2, (period, amt) in enumerate([
+    ("April 2022",     "349,91 €"),
+    ("June 2022",      "449,91 €"),
+    ("September 2022", "349,91 €"),
+    ("October 2022",   "699,82 €"),
+    ("December 2022",  "349,91 €"),
+    ("April 2023",     "564,82 €"),
+]):
+    bg = LGRAY if j2 % 2 == 0 else WHITE
+    rect(sl, 6.8, 3.55+j2*0.34, 5.95, 0.32, fill=bg)
+    tb(sl, period, 6.92, 3.57+j2*0.34, 2.1, 0.24, size=10, color=DGRAY)
+    tb(sl, amt,    9.12, 3.57+j2*0.34, 1.7, 0.24, size=10, bold=True, color=GREEN)
+    tb(sl, "Realistic", 10.92, 3.57+j2*0.34, 1.2, 0.24, size=9, color=GREEN)
+
+rect(sl, 6.8, 5.65, 5.95, 0.75, fill=LRED)
+tb(sl, (
+    "Same provider, same months — glasses have real prices, contacts are always "
+    "round numbers. The contacts charges appear fabricated."
+), 6.92, 5.7, 5.7, 0.65, size=10, bold=True, color=RED, wrap=True)
+
+tb(sl, "This pattern also appears in Roudoudou Lentilles, Kylian's Frames, and most other flagged providers.",
+   0.3, 6.85, 12.7, 0.32, size=10, color=DGRAY, italic=True, align=PP_ALIGN.CENTER)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SLIDE 9 — Q2 Divider
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
 section_divider(sl,
     q_num=2,
     q_label="Detection System Design",
     title="How did we turn these\npatterns into a system?",
-    description="3 automated detection rules · risk scoring pipeline · instant routing of every provider")
+    description="4 automated detection rules · risk scoring pipeline · instant routing of every provider")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SLIDE 9 — Detection Engine
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "The Detection Engine — 3 Rules, Automatically Applied to Every Provider",
+header(sl, "The Detection Engine — 4 Rules, Automatically Applied to Every Provider",
        q_tag="Q2",
        subtitle="Each rule adds points to a provider's risk score. Final score 0–100 determines what happens next.")
 footer(sl)
 
-def rule_card(sl, num, title, plain_english, logic_line, score_line, x):
-    rect(sl, x, 1.55, 3.85, 3.85, fill=NAVY)
-    rect(sl, x, 1.55, 3.85, 0.48, fill=RED)
-    tb(sl, f"Rule {num}", x+0.18, 1.58, 3.5, 0.38, size=16, bold=True, color=WHITE)
-    tb(sl, title, x+0.18, 2.13, 3.5, 0.4, size=13, bold=True, color=GOLD)
-    tb(sl, plain_english, x+0.18, 2.6, 3.5, 0.7, size=10, color=MGRAY, wrap=True)
-    rect(sl, x, 3.38, 3.85, 0.3, fill=RGBColor(0x26, 0x35, 0x5C))
-    tb(sl, "Logic:", x+0.18, 3.4, 0.6, 0.25, size=9, bold=True, color=GOLD)
-    tb(sl, logic_line, x+0.78, 3.4, 2.9, 0.25, size=9, color=WHITE)
-    rect(sl, x, 5.0, 3.85, 0.42, fill=GOLD)
-    tb(sl, score_line, x+0.1, 5.02, 3.65, 0.36,
-       size=10, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+def rule_card(sl, num, title, plain_english, logic_line, score_line, x, w=3.05):
+    rect(sl, x, 1.55, w, 3.85, fill=NAVY)
+    rect(sl, x, 1.55, w, 0.48, fill=RED)
+    tb(sl, f"Rule {num}", x+0.15, 1.58, w-0.3, 0.38, size=14, bold=True, color=WHITE)
+    tb(sl, title, x+0.15, 2.1, w-0.3, 0.4, size=12, bold=True, color=GOLD)
+    tb(sl, plain_english, x+0.15, 2.56, w-0.3, 0.78, size=9, color=MGRAY, wrap=True)
+    rect(sl, x, 3.38, w, 0.3, fill=RGBColor(0x26, 0x35, 0x5C))
+    tb(sl, "Logic:", x+0.15, 3.4, 0.6, 0.25, size=8, bold=True, color=GOLD)
+    tb(sl, logic_line, x+0.75, 3.4, w-0.9, 0.25, size=8, color=WHITE)
+    rect(sl, x, 5.0, w, 0.42, fill=GOLD)
+    tb(sl, score_line, x+0.08, 5.02, w-0.16, 0.36,
+       size=9, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
 
 rule_card(sl, 1, "Billing Spike",
     "Flag any month where a provider's total billings are more than 5× higher than "
@@ -467,15 +544,22 @@ rule_card(sl, 2, "Systematic Co-Billing",
     "majority of their active months (≥ 50%). Occasional overlap is normal; "
     "systematic overlap is not.",
     "≥ 50% of months have both categories",
-    "25–50 points  (scales with how systematic)",
-    4.55)
+    "25–50 pts  (scales with rate)",
+    3.52)
 
 rule_card(sl, 3, "Repeated Identical Amount",
     "Flag any (provider, category) pair where the exact same euro amount appears "
     "3 or more times within any rolling 12-month window. Real billing varies naturally.",
     "same € amount ≥ 3× in 12-month window",
-    "+20 points per repeated-amount pattern",
-    8.8)
+    "+20 points per pattern",
+    6.74)
+
+rule_card(sl, 4, "Round Number Billing",
+    "Flag providers where ≥ 70% of claims in a category are round numbers "
+    "(whole euros, multiples of 50). Real optical purchases have irregular amounts like 349.91€.",
+    "≥ 70% of claims are multiples of 50",
+    "+25 points per category",
+    9.96)
 
 # Routing
 rect(sl, 0.3, 5.55, 12.73, 0.35, fill=NAVY)
@@ -551,13 +635,13 @@ header(sl, "Recommended Actions by Provider", q_tag="Q3",
 footer(sl)
 
 summary = [
-    ("Les lunettes à Soso",  100, "auto_held",    "Co-billing + spike + repeated",  "Immediate audit — 3 independent fraud signals"),
-    ("Penthievre alambics",  100, "auto_held",    "Co-billing + spike",              "Full audit + suspend payments"),
-    ("Queen optics",         100, "auto_held",    "Co-billing + spike",              "Full audit + suspend payments"),
-    ("Mike lunettes",        100, "auto_held",    "Co-billing + spike",              "Full audit + suspend payments"),
-    ("Runner glasses",        88, "auto_held",    "Co-billing + repeated",           "Audit — repeated billing pattern"),
-    ("Kylian's frames",       68, "needs_review", "Co-billing + spike",              "Manual review — borderline, monitor closely"),
-    ("Roudoudou lentilles",   50, "needs_review", "Co-billing only",                 "Manual review — systematic but below hold threshold"),
+    ("Les lunettes à Soso",  100, "auto_held",    "Co-billing + spike + repeated + rounds", "Immediate audit — 4 independent fraud signals"),
+    ("Penthievre alambics",  100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Queen optics",         100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Mike lunettes",        100, "auto_held",    "Co-billing + spike + rounds",             "Full audit + suspend payments"),
+    ("Runner glasses",       100, "auto_held",    "Co-billing + repeated + rounds",          "Audit — round numbers + repeated billing"),
+    ("Kylian's frames",       93, "auto_held",    "Co-billing + spike + rounds",             "Payments held — multiple signals"),
+    ("Roudoudou lentilles",   75, "auto_held",    "Co-billing + rounds",                     "Payments held — systematic round numbers"),
 ]
 
 sxs = [0.3, 3.5, 5.1, 6.95, 9.1]
@@ -583,7 +667,7 @@ rect(sl, 0.3, ry+0.08, 0.12, 1.68, fill=NAVY)
 tb(sl, "How to improve detection over time", 0.55, ry+0.16, 5.5, 0.35,
    size=12, bold=True, color=NAVY)
 for j, step in enumerate([
-    "Get individual claim-level data → detect co-billing at member level (more precise)",
+    "Get individual claim-level data → detect co-billing and round numbers at member level (more precise)",
     "Add geographic clustering → flag multiple providers at the same address",
     "Seasonal tuning → avoid false positives from legitimate holiday spikes in December",
     "ML model trained on confirmed fraud cases → dynamic scoring instead of fixed point weights",
@@ -594,6 +678,6 @@ for j, step in enumerate([
 # ─────────────────────────────────────────────────────────────────────────────
 # Save
 # ─────────────────────────────────────────────────────────────────────────────
-out = "/home/max/workspace/alan/interview/fraud_ops_presentation_updated.pptx"
+out = "/home/maxwell/workspace/alan/interview/fraud_ops_presentation_updated.pptx"
 prs.save(out)
 print(f"Saved → {out}")

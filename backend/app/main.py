@@ -14,25 +14,16 @@ from app.routes.claims import router as claims_router
 from app.routes.dashboard import router as dashboard_router
 from app.routes.detection_routes import router as detection_router
 from app.routes.providers import router as providers_router
-from app.seed import seed_all
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """
-    Application lifespan handler.
-
-    On startup:
-      1. Initialise Tortoise ORM and generate schemas.
-      2. Seed the database with initial data if empty.
-    """
     async with RegisterTortoise(
         app=app,
         config=TORTOISE_ORM,
         generate_schemas=True,
         add_exception_handlers=True,
     ):
-        await seed_all()
         yield
 
 

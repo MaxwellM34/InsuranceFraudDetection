@@ -98,6 +98,25 @@ export default function ImportPage() {
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
+  function handleDownloadSample() {
+    const csv = [
+      'provider_name,member_id,month,year,category,amount',
+      'Optic Vision,MEM001,1,2023,Lunettes,150.00',
+      'Optic Vision,MEM002,1,2023,Lentilles,45.50',
+      'Optic Vision,MEM003,2,2023,Lunettes,200.00',
+      'Clear Sight,MEM004,2,2023,Lunettes,175.00',
+      'Clear Sight,MEM005,3,2023,Lentilles,60.00',
+    ].join('\n')
+
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'sample_claims.csv'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   async function handleImport() {
     if (!file) return
 
@@ -123,11 +142,22 @@ export default function ImportPage() {
             <svg className="w-5 h-5 text-[#1A2440] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <div>
-              <p className="text-sm font-semibold text-[#1A2440] mb-1">{t.import.formatTitle}</p>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-sm font-semibold text-[#1A2440]">{t.import.formatTitle}</p>
+                <button
+                  onClick={handleDownloadSample}
+                  className="flex items-center gap-1.5 text-xs font-medium text-[#1A2440] border border-[#1A2440]/20 rounded-lg px-3 py-1.5 hover:bg-[#1A2440]/10 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {t.import.downloadSample}
+                </button>
+              </div>
               <p className="text-xs text-gray-600 mb-2">{t.import.formatDesc}</p>
               <code className="text-xs bg-white border border-[#1A2440]/10 rounded px-3 py-1.5 text-[#1A2440] block">
-                provider_id, member_id, month, year, category, amount
+                provider_name, member_id, month, year, category, amount
               </code>
               <p className="text-xs text-gray-500 mt-2">
                 {t.import.categoryNote} <strong>category</strong> : Lunettes, Lentilles
