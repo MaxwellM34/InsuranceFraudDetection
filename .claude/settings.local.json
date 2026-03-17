@@ -10,7 +10,9 @@
       "Bash(ls /home/maxwell/workspace/alan/interview/backend/.env*)",
       "Bash(python make_pptx.py)",
       "Bash(source backend/.venv/bin/activate)",
-      "Bash(python3 make_pptx.py)"
+      "Bash(python3 make_pptx.py)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   },
   "defaultMode": "bypassPermissions"
