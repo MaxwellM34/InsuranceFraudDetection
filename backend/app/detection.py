@@ -6,23 +6,23 @@ Four rules are evaluated for every provider:
 1. MONTHLY SPIKE RULE
    For each (provider, category, month/year), compute the 6-month rolling
    median of claim amounts (the 6 months *before* the current month).
-   If current_amount > 5 × median  →  flag, score +30.
+   If current_amount > 5 × median  →  flag, score +20.
 
 2. DUAL PRODUCT RULE
    If a provider bills both Lunettes AND Lentilles in the same calendar
-   month  →  flag, score +30.
+   month  →  flag, score scales with co-billing rate (max +25).
 
 3. REPEATED AMOUNT RULE
    If the same euro amount (exact float equality) appears ≥ 3 times within
    a rolling 12-month window for the same (provider, category)  →  flag,
-   score +20.
+   score +15.
 
 4. ROUND NUMBER RULE
    If ≥ 70% of a provider's claims for a given category are round numbers
-   (whole euros, no cents, multiple of 50) across ≥ 3 claims, flag it.
+   (whole euros, no cents) across ≥ 3 claims, flag it.
    Real optical purchases have irregular amounts (e.g. 349.91€).
-   Systematic round-number billing suggests fabricated charges.
-   Score: +25.
+   Systematic whole-euro billing suggests fabricated charges.
+   Score: +15.
 
 Final risk_score = sum of all score_contributions, capped at 100.
 
@@ -213,7 +213,7 @@ def _rule_monthly_spike(provider: Provider, claims: list[Claim]) -> list[FraudFl
                     FraudFlag(
                         provider=provider,
                         rule_triggered="monthly_spike",
-                        score_contribution=30.0,
+                        score_contribution=20.0,
                         month=cm,
                         year=cy,
                         details={
@@ -284,8 +284,8 @@ def _rule_dual_product(provider: Provider, claims: list[Claim]) -> list[FraudFla
         return flags
 
     # One summary flag for the whole pattern.
-    # Score scales with how systematic the co-billing is (50 % → 25 pts, 100 % → 50 pts).
-    score = min(50, round(dual_ratio * 50))
+    # Score scales with how systematic the co-billing is (50 % → 12 pts, 100 % → 25 pts).
+    score = min(25, round(dual_ratio * 25))
 
     # Anchor the flag's period to the most recent qualifying month.
     last_year, last_month, _ = dual_months[-1]
@@ -368,7 +368,7 @@ def _rule_repeated_amount(provider: Provider, claims: list[Claim]) -> list[Fraud
                     FraudFlag(
                         provider=provider,
                         rule_triggered="repeated_amount",
-                        score_contribution=20.0,
+                        score_contribution=15.0,
                         month=anchor.month,
                         year=anchor.year,
                         details={
@@ -396,7 +396,7 @@ def _rule_round_number(provider: Provider, claims: list[Claim]) -> list[FraudFla
     Detect providers who systematically bill round numbers for a category.
 
     A "round number" is an amount that is a whole number of euros (no cents)
-    AND a multiple of 50 — e.g. 200.00, 300.00, 600.00.
+    — e.g. 200.00, 633.00, 2326.00.
     Real optical purchases have irregular amounts (e.g. 349.91€, 127.50€).
 
     If ≥ 70% of a provider's claims for a given category are round numbers,
@@ -417,7 +417,7 @@ def _rule_round_number(provider: Provider, claims: list[Claim]) -> list[FraudFla
 
         round_claims = [
             c for c in cat_claims
-            if c.amount > 0 and c.amount % 50 == 0
+            if c.amount > 0 and c.amount % 1 == 0
         ]
         round_rate = len(round_claims) / len(cat_claims)
 
@@ -431,7 +431,7 @@ def _rule_round_number(provider: Provider, claims: list[Claim]) -> list[FraudFla
             FraudFlag(
                 provider=provider,
                 rule_triggered="round_number",
-                score_contribution=25.0,
+                score_contribution=15.0,
                 month=latest.month,
                 year=latest.year,
                 details={

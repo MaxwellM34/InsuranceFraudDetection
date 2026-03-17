@@ -50,7 +50,15 @@ export function ProvidersChart({ providers }: ProvidersChartProps) {
               tickLine={false} angle={-35} textAnchor="end" interval={0} />
             <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#6b7280' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CustomTooltip t={t.charts} />} cursor={{ fill: '#f9fafb' }} />
-            <Bar dataKey="risk_score" name={t.charts.riskScore} radius={[4, 4, 0, 0]}>
+            <Bar dataKey="risk_score" name={t.charts.riskScore} radius={[4, 4, 0, 0]} shape={(props: {
+              x?: number; y?: number; width?: number; height?: number; risk_score?: number
+            }) => {
+              const { x = 0, y = 0, width = 0, height = 0, risk_score = 0 } = props
+              if (risk_score === 0) {
+                return <rect x={x} y={y + height - 3} width={width} height={3} fill="#2A9D5C" rx={2} />
+              }
+              return <rect x={x} y={y} width={width} height={height} fill={getRiskColor(risk_score)} rx={4} />
+            }}>
               {top10.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={getRiskColor(entry.risk_score)} />
               ))}
