@@ -4,7 +4,7 @@ from typing import Optional
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 _base = Path(__file__).resolve().parents[1]
@@ -44,7 +44,10 @@ async def verify_clerk_token(token: str) -> dict:
     return response.json()
 
 
-async def get_current_user(request: Request) -> dict:
+async def get_current_user(
+    request: Request,
+    _: Optional[HTTPAuthorizationCredentials] = Depends(security),
+) -> dict:
     """
     Extract and verify the current user from the request.
 
