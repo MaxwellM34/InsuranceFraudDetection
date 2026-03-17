@@ -99,22 +99,10 @@ export default function ImportPage() {
   }
 
   function handleDownloadSample() {
-    const csv = [
-      'provider_name,member_id,month,year,category,amount',
-      'Optic Vision,MEM001,1,2023,Lunettes,150.00',
-      'Optic Vision,MEM002,1,2023,Lentilles,45.50',
-      'Optic Vision,MEM003,2,2023,Lunettes,200.00',
-      'Clear Sight,MEM004,2,2023,Lunettes,175.00',
-      'Clear Sight,MEM005,3,2023,Lentilles,60.00',
-    ].join('\n')
-
-    const blob = new Blob([csv], { type: 'text/csv' })
-    const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
-    a.href = url
+    a.href = '/sample_claims.csv'
     a.download = 'sample_claims.csv'
     a.click()
-    URL.revokeObjectURL(url)
   }
 
   async function handleImport() {

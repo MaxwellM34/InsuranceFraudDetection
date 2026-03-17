@@ -1,0 +1,222 @@
+MONTH,HEALTH_PROFESSIONAL_NAME,SUM(ALAN_COVERED),MONTH_NB,YEAR,PRIMARY_LEVEL_1
+"1 Aug, 2022, 00:00",22 optics,"64,3",8,2022,Lentilles
+"1 Dec, 2022, 00:00",22 optics,"175,6",12,2022,Lentilles
+"1 Feb, 2023, 00:00",22 optics,"182,3",2,2023,Lentilles
+"1 Mar, 2022, 00:00",abc optik,"201,91",3,2022,Lunettes
+"1 Jun, 2022, 00:00",abc optik,"261,41",6,2022,Lunettes
+"1 Jul, 2022, 00:00",abc optik,"227,41",7,2022,Lunettes
+"1 oct., 2022, 00:00",abc optik,200,10,2022,Lentilles
+"1 Dec, 2022, 00:00",abc optik,176,12,2022,Lentilles
+"1 Dec, 2022, 00:00",abc optik,"449,91",12,2022,Lunettes
+"1 Jan, 2023, 00:00",abc optik,"412,21",1,2023,Lunettes
+"1 Feb, 2022, 00:00",Cool opticos,200,2,2022,Lentilles
+"1 May, 2022, 00:00",Cool opticos,"259,91",5,2022,Lunettes
+"1 Jun, 2022, 00:00",Cool opticos,"419,91",6,2022,Lunettes
+"1 Jul, 2022, 00:00",Cool opticos,"359,91",7,2022,Lunettes
+"1 oct., 2022, 00:00",Cool opticos,"259,91",10,2022,Lunettes
+"1 nov., 2022, 00:00",Cool opticos,"714,36",11,2022,Lunettes
+"1 Dec, 2022, 00:00",Cool opticos,"299,91",12,2022,Lunettes
+"1 Mar, 2023, 00:00",Cool opticos,"999,82",3,2023,Lunettes
+"1 Apr, 2023, 00:00",Cool opticos,"699,91",4,2023,Lunettes
+"1 May, 2023, 00:00",Cool opticos,"419,91",5,2023,Lunettes
+"1 Jun, 2023, 00:00",Cool opticos,"419,91",6,2023,Lunettes
+"1 Jan, 2022, 00:00",Kylian's frames,"719,82",1,2022,Lunettes
+"1 Jan, 2022, 00:00",Kylian's frames,249,1,2022,Lentilles
+"1 Feb, 2022, 00:00",Kylian's frames,194,2,2022,Lentilles
+"1 Feb, 2022, 00:00",Kylian's frames,"2894,28",2,2022,Lunettes
+"1 Mar, 2022, 00:00",Kylian's frames,550,3,2022,Lentilles
+"1 Apr, 2022, 00:00",Kylian's frames,180,4,2022,Lentilles
+"1 Apr, 2022, 00:00",Kylian's frames,"999,82",4,2022,Lunettes
+"1 May, 2022, 00:00",Kylian's frames,780,5,2022,Lentilles
+"1 May, 2022, 00:00",Kylian's frames,"1539,73",5,2022,Lunettes
+"1 Jun, 2022, 00:00",Kylian's frames,"1249,64",6,2022,Lunettes
+"1 Jun, 2022, 00:00",Kylian's frames,360,6,2022,Lentilles
+"1 Jul, 2022, 00:00",Kylian's frames,"2649,46",7,2022,Lunettes
+"1 Jul, 2022, 00:00",Kylian's frames,580,7,2022,Lentilles
+"1 Aug, 2022, 00:00",Kylian's frames,830,8,2022,Lentilles
+"1 Aug, 2022, 00:00",Kylian's frames,"899,73",8,2022,Lunettes
+"1 Sep, 2022, 00:00",Kylian's frames,"1809,64",9,2022,Lunettes
+"1 Sep, 2022, 00:00",Kylian's frames,790,9,2022,Lentilles
+"1 oct., 2022, 00:00",Kylian's frames,0,10,2022,Lunettes
+"1 oct., 2022, 00:00",Kylian's frames,300,10,2022,Lentilles
+"1 nov., 2022, 00:00",Kylian's frames,180,11,2022,Lentilles
+"1 nov., 2022, 00:00",Kylian's frames,"1648,55",11,2022,Lunettes
+"1 Dec, 2022, 00:00",Kylian's frames,1097,12,2022,Lentilles
+"1 Dec, 2022, 00:00",Kylian's frames,"22563,36",12,2022,Lunettes
+"1 Jan, 2023, 00:00",Kylian's frames,380,1,2023,Lentilles
+"1 Jan, 2023, 00:00",Kylian's frames,"299,91",1,2023,Lunettes
+"1 Feb, 2023, 00:00",Kylian's frames,"1139,73",2,2023,Lunettes
+"1 Feb, 2023, 00:00",Kylian's frames,600,2,2023,Lentilles
+"1 Mar, 2023, 00:00",Kylian's frames,"419,91",3,2023,Lunettes
+"1 Mar, 2023, 00:00",Kylian's frames,105,3,2023,Lentilles
+"1 May, 2023, 00:00",Kylian's frames,300,5,2023,Lentilles
+"1 May, 2023, 00:00",Kylian's frames,0,5,2023,Lunettes
+"1 Jun, 2023, 00:00",Kylian's frames,850,6,2023,Lentilles
+"1 Jun, 2023, 00:00",Kylian's frames,0,6,2023,Lunettes
+"1 Jan, 2022, 00:00",La classe à Dallas,0,1,2022,Lunettes
+"1 Feb, 2022, 00:00",La classe à Dallas,"549,82",2,2022,Lunettes
+"1 Sep, 2022, 00:00",La classe à Dallas,"419,91",9,2022,Lunettes
+"1 nov., 2022, 00:00",La classe à Dallas,"798,62",11,2022,Lunettes
+"1 Dec, 2022, 00:00",La classe à Dallas,"299,91",12,2022,Lunettes
+"1 Jan, 2023, 00:00",La classe à Dallas,"1099,73",1,2023,Lunettes
+"1 Mar, 2023, 00:00",La classe à Dallas,"564,82",3,2023,Lunettes
+"1 Apr, 2023, 00:00",La classe à Dallas,"299,94",4,2023,Lunettes
+"1 May, 2023, 00:00",La classe à Dallas,"668,62",5,2023,Lunettes
+"1 Jun, 2023, 00:00",La classe à Dallas,152,6,2023,Lentilles
+"1 Jun, 2023, 00:00",La classe à Dallas,"508,42",6,2023,Lunettes
+"1 Jan, 2022, 00:00",Les lunettes à Soso,720,1,2022,Lentilles
+"1 Feb, 2022, 00:00",Les lunettes à Soso,360,2,2022,Lentilles
+"1 Feb, 2022, 00:00",Les lunettes à Soso,"297,91",2,2022,Lunettes
+"1 Mar, 2022, 00:00",Les lunettes à Soso,"1321,64",3,2022,Lunettes
+"1 Mar, 2022, 00:00",Les lunettes à Soso,900,3,2022,Lentilles
+"1 Apr, 2022, 00:00",Les lunettes à Soso,900,4,2022,Lentilles
+"1 Apr, 2022, 00:00",Les lunettes à Soso,"2579,37",4,2022,Lunettes
+"1 May, 2022, 00:00",Les lunettes à Soso,720,5,2022,Lentilles
+"1 May, 2022, 00:00",Les lunettes à Soso,"1459,73",5,2022,Lunettes
+"1 Jun, 2022, 00:00",Les lunettes à Soso,"643,82",6,2022,Lunettes
+"1 Jun, 2022, 00:00",Les lunettes à Soso,540,6,2022,Lentilles
+"1 Jul, 2022, 00:00",Les lunettes à Soso,540,7,2022,Lentilles
+"1 Jul, 2022, 00:00",Les lunettes à Soso,"879,82",7,2022,Lunettes
+"1 Aug, 2022, 00:00",Les lunettes à Soso,"379,91",8,2022,Lunettes
+"1 Aug, 2022, 00:00",Les lunettes à Soso,180,8,2022,Lentilles
+"1 Sep, 2022, 00:00",Les lunettes à Soso,"379,91",9,2022,Lunettes
+"1 oct., 2022, 00:00",Les lunettes à Soso,540,10,2022,Lentilles
+"1 oct., 2022, 00:00",Les lunettes à Soso,"1699,64",10,2022,Lunettes
+"1 nov., 2022, 00:00",Les lunettes à Soso,"2349,46",11,2022,Lunettes
+"1 nov., 2022, 00:00",Les lunettes à Soso,540,11,2022,Lentilles
+"1 Dec, 2022, 00:00",Les lunettes à Soso,18,12,2022,Lentilles
+"1 Dec, 2022, 00:00",Les lunettes à Soso,"9158,11",12,2022,Lunettes
+"1 Jan, 2023, 00:00",Les lunettes à Soso,198,1,2023,Lentilles
+"1 Jan, 2023, 00:00",Les lunettes à Soso,"979,73",1,2023,Lunettes
+"1 Feb, 2023, 00:00",Les lunettes à Soso,360,2,2023,Lentilles
+"1 Feb, 2023, 00:00",Les lunettes à Soso,"379,91",2,2023,Lunettes
+"1 Mar, 2023, 00:00",Les lunettes à Soso,"879,82",3,2023,Lunettes
+"1 Mar, 2023, 00:00",Les lunettes à Soso,540,3,2023,Lentilles
+"1 Apr, 2023, 00:00",Les lunettes à Soso,900,4,2023,Lentilles
+"1 May, 2023, 00:00",Les lunettes à Soso,"1549,64",5,2023,Lunettes
+"1 May, 2023, 00:00",Les lunettes à Soso,126,5,2023,Lentilles
+"1 Jun, 2023, 00:00",Les lunettes à Soso,108,6,2023,Lentilles
+"1 Jan, 2022, 00:00",Mike lunettes,"599,82",1,2022,Lunettes
+"1 Jan, 2022, 00:00",Mike lunettes,230,1,2022,Lentilles
+"1 Feb, 2022, 00:00",Mike lunettes,300,2,2022,Lentilles
+"1 Feb, 2022, 00:00",Mike lunettes,"419,91",2,2022,Lunettes
+"1 Mar, 2022, 00:00",Mike lunettes,"419,91",3,2022,Lunettes
+"1 Mar, 2022, 00:00",Mike lunettes,300,3,2022,Lentilles
+"1 May, 2022, 00:00",Mike lunettes,"1139,73",5,2022,Lunettes
+"1 May, 2022, 00:00",Mike lunettes,180,5,2022,Lentilles
+"1 Jun, 2022, 00:00",Mike lunettes,146,6,2022,Lentilles
+"1 Jun, 2022, 00:00",Mike lunettes,"3644,28",6,2022,Lunettes
+"1 Jul, 2022, 00:00",Mike lunettes,100,7,2022,Lentilles
+"1 Jul, 2022, 00:00",Mike lunettes,"239,91",7,2022,Lunettes
+"1 Sep, 2022, 00:00",Mike lunettes,"1919,46",9,2022,Lunettes
+"1 Sep, 2022, 00:00",Mike lunettes,840,9,2022,Lentilles
+"1 nov., 2022, 00:00",Mike lunettes,"1199,73",11,2022,Lunettes
+"1 nov., 2022, 00:00",Mike lunettes,840,11,2022,Lentilles
+"1 Dec, 2022, 00:00",Mike lunettes,132,12,2022,Lentilles
+"1 Dec, 2022, 00:00",Mike lunettes,"2219,37",12,2022,Lunettes
+"1 Mar, 2023, 00:00",Mike lunettes,300,3,2023,Lentilles
+"1 Mar, 2023, 00:00",Mike lunettes,"869,82",3,2023,Lunettes
+"1 Apr, 2023, 00:00",Mike lunettes,140,4,2023,Lentilles
+"1 May, 2023, 00:00",Mike lunettes,180,5,2023,Lentilles
+"1 Jun, 2023, 00:00",Mike lunettes,"839,82",6,2023,Lunettes
+"1 Jun, 2023, 00:00",Mike lunettes,300,6,2023,Lentilles
+"1 Jan, 2022, 00:00",Penthievre alambics,900,1,2022,Lentilles
+"1 Jan, 2022, 00:00",Penthievre alambics,"1149,73",1,2022,Lunettes
+"1 Feb, 2022, 00:00",Penthievre alambics,1083,2,2022,Lentilles
+"1 Mar, 2022, 00:00",Penthievre alambics,"2654,37",3,2022,Lunettes
+"1 Mar, 2022, 00:00",Penthievre alambics,"2416,62",3,2022,Lentilles
+"1 Apr, 2022, 00:00",Penthievre alambics,"379,91",4,2022,Lunettes
+"1 Apr, 2022, 00:00",Penthievre alambics,985,4,2022,Lentilles
+"1 May, 2022, 00:00",Penthievre alambics,"1729,64",5,2022,Lunettes
+"1 May, 2022, 00:00",Penthievre alambics,2822,5,2022,Lentilles
+"1 Jun, 2022, 00:00",Penthievre alambics,21,6,2022,Lentilles
+"1 Jun, 2022, 00:00",Penthievre alambics,"1919,55",6,2022,Lunettes
+"1 Jul, 2022, 00:00",Penthievre alambics,31,7,2022,Lentilles
+"1 Jul, 2022, 00:00",Penthievre alambics,"3269,19",7,2022,Lunettes
+"1 Sep, 2022, 00:00",Penthievre alambics,"1219,73",9,2022,Lunettes
+"1 Sep, 2022, 00:00",Penthievre alambics,1372,9,2022,Lentilles
+"1 oct., 2022, 00:00",Penthievre alambics,"2137,55",10,2022,Lunettes
+"1 oct., 2022, 00:00",Penthievre alambics,215,10,2022,Lentilles
+"1 nov., 2022, 00:00",Penthievre alambics,2213,11,2022,Lentilles
+"1 nov., 2022, 00:00",Penthievre alambics,"3939,34",11,2022,Lunettes
+"1 Dec, 2022, 00:00",Penthievre alambics,"6307,86",12,2022,Lunettes
+"1 Dec, 2022, 00:00",Penthievre alambics,4671,12,2022,Lentilles
+"1 Jan, 2023, 00:00",Penthievre alambics,143,1,2023,Lentilles
+"1 Jan, 2023, 00:00",Penthievre alambics,"299,94",1,2023,Lunettes
+"1 Feb, 2023, 00:00",Penthievre alambics,138,2,2023,Lentilles
+"1 Feb, 2023, 00:00",Penthievre alambics,"999,82",2,2023,Lunettes
+"1 Apr, 2023, 00:00",Penthievre alambics,880,4,2023,Lentilles
+"1 Apr, 2023, 00:00",Penthievre alambics,"299,94",4,2023,Lunettes
+"1 May, 2023, 00:00",Penthievre alambics,"984,76",5,2023,Lunettes
+"1 May, 2023, 00:00",Penthievre alambics,153,5,2023,Lentilles
+"1 Jun, 2023, 00:00",Penthievre alambics,600,6,2023,Lentilles
+"1 Jun, 2023, 00:00",Penthievre alambics,"1369,7",6,2023,Lunettes
+"1 Jan, 2022, 00:00",Queen optics,193,1,2022,Lentilles
+"1 Jan, 2022, 00:00",Queen optics,"719,82",1,2022,Lunettes
+"1 Feb, 2022, 00:00",Queen optics,600,2,2022,Lentilles
+"1 Feb, 2022, 00:00",Queen optics,"1959,64",2,2022,Lunettes
+"1 Mar, 2022, 00:00",Queen optics,1,3,2022,Lentilles
+"1 Mar, 2022, 00:00",Queen optics,"959,73",3,2022,Lunettes
+"1 Apr, 2022, 00:00",Queen optics,"2584,34",4,2022,Lunettes
+"1 Apr, 2022, 00:00",Queen optics,882,4,2022,Lentilles
+"1 May, 2022, 00:00",Queen optics,2254,5,2022,Lentilles
+"1 May, 2022, 00:00",Queen optics,"2294,37",5,2022,Lunettes
+"1 Jun, 2022, 00:00",Queen optics,"844,73",6,2022,Lunettes
+"1 Jun, 2022, 00:00",Queen optics,111,6,2022,Lentilles
+"1 Jul, 2022, 00:00",Queen optics,780,7,2022,Lentilles
+"1 Jul, 2022, 00:00",Queen optics,"1009,82",7,2022,Lunettes
+"1 Aug, 2022, 00:00",Queen optics,480,8,2022,Lentilles
+"1 Aug, 2022, 00:00",Queen optics,"1864,55",8,2022,Lunettes
+"1 Sep, 2022, 00:00",Queen optics,"279,91",9,2022,Lunettes
+"1 Sep, 2022, 00:00",Queen optics,300,9,2022,Lentilles
+"1 oct., 2022, 00:00",Queen optics,"719,82",10,2022,Lunettes
+"1 oct., 2022, 00:00",Queen optics,780,10,2022,Lentilles
+"1 nov., 2022, 00:00",Queen optics,250,11,2022,Lentilles
+"1 nov., 2022, 00:00",Queen optics,"1459,64",11,2022,Lunettes
+"1 Dec, 2022, 00:00",Queen optics,"6943,38",12,2022,Lunettes
+"1 Dec, 2022, 00:00",Queen optics,2634,12,2022,Lentilles
+"1 Jan, 2023, 00:00",Queen optics,"1789,55",1,2023,Lunettes
+"1 Jan, 2023, 00:00",Queen optics,2409,1,2023,Lentilles
+"1 Feb, 2023, 00:00",Queen optics,227,2,2023,Lentilles
+"1 Feb, 2023, 00:00",Queen optics,"3564,28",2,2023,Lunettes
+"1 Mar, 2023, 00:00",Queen optics,"199,91",3,2023,Lunettes
+"1 Mar, 2023, 00:00",Queen optics,141,3,2023,Lentilles
+"1 Apr, 2023, 00:00",Queen optics,"964,73",4,2023,Lunettes
+"1 May, 2023, 00:00",Queen optics,"3599,28",5,2023,Lunettes
+"1 May, 2023, 00:00",Queen optics,178,5,2023,Lentilles
+"1 Jun, 2023, 00:00",Queen optics,480,6,2023,Lentilles
+"1 Jun, 2023, 00:00",Queen optics,"419,91",6,2023,Lunettes
+"1 Dec, 2022, 00:00",Roudoudou lentilles,"8900,23",12,2022,Lunettes
+"1 Dec, 2022, 00:00",Roudoudou lentilles,633,12,2022,Lentilles
+"1 Jan, 2023, 00:00",Roudoudou lentilles,2326,1,2023,Lentilles
+"1 Jan, 2023, 00:00",Roudoudou lentilles,"839,73",1,2023,Lunettes
+"1 Feb, 2023, 00:00",Roudoudou lentilles,"2954,28",2,2023,Lunettes
+"1 Feb, 2023, 00:00",Roudoudou lentilles,2193,2,2023,Lentilles
+"1 Mar, 2023, 00:00",Roudoudou lentilles,3915,3,2023,Lentilles
+"1 Mar, 2023, 00:00",Roudoudou lentilles,"3779,1",3,2023,Lunettes
+"1 Apr, 2023, 00:00",Roudoudou lentilles,1426,4,2023,Lentilles
+"1 Apr, 2023, 00:00",Roudoudou lentilles,"6965,67",4,2023,Lunettes
+"1 May, 2023, 00:00",Roudoudou lentilles,460,5,2023,Lentilles
+"1 May, 2023, 00:00",Roudoudou lentilles,"769,73",5,2023,Lunettes
+"1 Feb, 2022, 00:00",Runner glasses,240,2,2022,Lentilles
+"1 Apr, 2022, 00:00",Runner glasses,"349,91",4,2022,Lunettes
+"1 Apr, 2022, 00:00",Runner glasses,300,4,2022,Lentilles
+"1 Jun, 2022, 00:00",Runner glasses,300,6,2022,Lentilles
+"1 Jun, 2022, 00:00",Runner glasses,"449,91",6,2022,Lunettes
+"1 Sep, 2022, 00:00",Runner glasses,"349,91",9,2022,Lunettes
+"1 Sep, 2022, 00:00",Runner glasses,300,9,2022,Lentilles
+"1 oct., 2022, 00:00",Runner glasses,"699,82",10,2022,Lunettes
+"1 oct., 2022, 00:00",Runner glasses,600,10,2022,Lentilles
+"1 nov., 2022, 00:00",Runner glasses,300,11,2022,Lentilles
+"1 Dec, 2022, 00:00",Runner glasses,600,12,2022,Lentilles
+"1 Dec, 2022, 00:00",Runner glasses,"349,91",12,2022,Lunettes
+"1 Jan, 2023, 00:00",Runner glasses,398,1,2023,Lentilles
+"1 Mar, 2023, 00:00",Runner glasses,200,3,2023,Lentilles
+"1 Apr, 2023, 00:00",Runner glasses,"564,82",4,2023,Lunettes
+"1 Apr, 2023, 00:00",Runner glasses,200,4,2023,Lentilles
+"1 May, 2023, 00:00",Runner glasses,200,5,2023,Lentilles
+"1 Jan, 2022, 00:00",Voodoo,"249,91",1,2022,Lunettes
+"1 Mar, 2022, 00:00",Voodoo,236,3,2022,Lentilles
+"1 Sep, 2022, 00:00",Voodoo,236,9,2022,Lentilles
+"1 Dec, 2022, 00:00",Voodoo,100,12,2022,Lentilles
+"1 Feb, 2023, 00:00",Voodoo,"299,91",2,2023,Lunettes
