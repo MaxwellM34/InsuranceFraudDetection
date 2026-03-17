@@ -80,7 +80,7 @@ def header(sl, title, subtitle=None, q_tag=None):
 
 def footer(sl):
     rect(sl, 0, 7.12, 13.33, 0.38, fill=NAVY)
-    tb(sl, "Alan Assurance · Fraud Detection Case · 2024",
+    tb(sl, "Alan Assurance · Fraud Detection Case",
        0.3, 7.13, 12.7, 0.36, size=9, color=WHITE, align=PP_ALIGN.CENTER)
 
 
@@ -116,7 +116,7 @@ def section_divider(sl, q_num, q_label, title, description):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 1 — Title
+# SLIDE 1 - Title
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
 
@@ -126,26 +126,26 @@ rect(sl, 0, 0, 0.3, 7.5, fill=GOLD)
 
 tb(sl, "ALAN ASSURANCE", 0.8, 0.9, 11.7, 0.55,
    size=16, bold=True, color=GOLD, align=PP_ALIGN.CENTER)
-tb(sl, "Ops Runner — Technical Case", 0.8, 1.55, 11.7, 1.0,
+tb(sl, "Ops Runner - Technical Case", 0.8, 1.55, 11.7, 1.0,
    size=40, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 tb(sl, "Detecting Fraud in Optical Care Claims", 0.8, 2.65, 11.7, 0.65,
    size=24, color=MGRAY, align=PP_ALIGN.CENTER)
 
 tb(sl, (
     "Alan reimburses optical care claims submitted by opticians. "
-    "This case asks: can we detect which providers are billing fraudulently "
-    "— and build a system to catch it automatically?"
+    "This case asks: can I detect which providers are billing fraudulently "
+    "- and build a system to catch it automatically?"
 ), 0.9, 3.45, 11.5, 0.85, size=14, color=MGRAY, align=PP_ALIGN.CENTER, wrap=True)
 
-tb(sl, "March 2024", 0.8, 6.35, 11.7, 0.45,
+tb(sl, "", 0.8, 6.35, 11.7, 0.45,
    size=12, color=WHITE, align=PP_ALIGN.CENTER)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 2 — Dataset Overview
+# SLIDE 2 - Dataset Overview
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "The Dataset — What We're Working With")
+header(sl, "The Dataset - What We're Working With")
 footer(sl)
 
 # Metric cards
@@ -162,7 +162,7 @@ for val, label, sub, color, cx in [
     tb(sl, label, cx+0.15, 2.5,  2.7, 0.35, size=12, bold=True, color=NAVY)
     tb(sl, sub,   cx+0.15, 2.84, 2.7, 0.28, size=10, color=DGRAY, italic=True, wrap=True)
 
-# Left panel — what a row looks like
+# Left panel - what a row looks like
 rect(sl, 0.35, 3.52, 5.95, 3.15, fill=LGRAY)
 rect(sl, 0.35, 3.52, 0.12, 3.15, fill=NAVY)
 tb(sl, "What a single data row looks like",
@@ -181,19 +181,19 @@ for j, (col, ex) in enumerate([
     tb(sl, col, 0.68, 4.42+j*0.4, 2.0, 0.28, size=11, bold=True, color=NAVY)
     tb(sl, ex,  2.85, 4.42+j*0.4, 3.1, 0.28, size=11, color=DGRAY)
 
-# Right panel — the question
+# Right panel - the question
 rect(sl, 6.6, 3.52, 6.4, 3.15, fill=WHITE, line=MGRAY)
 rect(sl, 6.6, 3.52, 0.12, 3.15, fill=RED)
-tb(sl, "The question we're trying to answer",
+tb(sl, "The questions to answer",
    6.88, 3.6, 5.9, 0.38, size=13, bold=True, color=NAVY)
 
 for j, (q, a) in enumerate([
-    ("Who might be committing fraud?",
-     "Some opticians may be billing for services that were never provided — or inflating bills to extract more money from Alan."),
-    ("What does fraud look like in this data?",
-     "Unusual billing patterns: sudden spikes, identical repeated amounts, or always claiming both glasses and contacts together."),
-    ("What can we do about it?",
-     "Automatically score each provider and surface the suspicious ones for a human reviewer to investigate."),
+    ("Q1: Are there fraud patterns in the data?",
+     "Some opticians may be billing for services never provided - or inflating bills. I looked for systematic patterns that distinguish fraud from normal variation."),
+    ("Q2: How do you identify and recover from fraud?",
+     "Once patterns are found: build automated detection rules, score each provider, and route suspicious ones for investigation and payment suspension."),
+    ("Q3: What proactive actions prevent future fraud?",
+     "Better data, network analysis, seasonal calibration, and ML scoring to stay ahead of evolving fraud tactics."),
 ]):
     rect(sl, 6.75, 4.05+j*0.82, 6.1, 0.75, fill=LGRAY if j % 2 == 0 else WHITE)
     tb(sl, q, 6.9, 4.08+j*0.82, 5.8, 0.3, size=10, bold=True, color=NAVY, wrap=True)
@@ -201,21 +201,21 @@ for j, (q, a) in enumerate([
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 3 — Q1 Divider
+# SLIDE 3 - Q1 Divider
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
 section_divider(sl,
     q_num=1,
-    q_label="Data Exploration",
-    title="What suspicious\npatterns did we find?",
-    description="8 out of 12 providers showed at least one red flag · 4 distinct fraud patterns identified")
+    q_label="Are there any patterns in the data that could indicate fraudulent activity? Have you identified one or several suspicious health professionals?",
+    title="Yes - 4 fraud patterns\nacross 8 providers",
+    description="8 out of 12 providers showed at least one red flag · 5 had payments automatically held")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 4 — Results Overview
+# SLIDE 4 - Results Overview
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Results — Which Providers Look Suspicious?", q_tag="Q1",
+header(sl, "Results - Which Providers Look Suspicious?", q_tag="Q1",
        subtitle="Each provider is given a risk score 0–100 based on how many suspicious patterns were detected")
 footer(sl)
 
@@ -262,10 +262,10 @@ tb(sl, "5 providers had payments automatically held  ·  3 flagged for manual re
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 5 — Pattern 1: Co-billing
+# SLIDE 5 - Pattern 1: Co-billing
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Pattern 1 — Glasses and Contacts Always Billed Together", q_tag="Q1",
+header(sl, "Pattern 1 - Glasses and Contacts Always Billed Together", q_tag="Q1",
        subtitle="Some opticians systematically claim both Lunettes and Lentilles for the same month, month after month")
 footer(sl)
 
@@ -276,7 +276,7 @@ tb(sl, "Why is this suspicious?", 0.55, 1.62, 5.0, 0.32, size=12, bold=True, col
 tb(sl, (
     "In reality, a single patient can't wear both glasses and contact lenses at the same time. "
     "An optician billing for both products every single month is likely adding fictitious contact-lens "
-    "charges to genuine glasses sales — the patient pays less out-of-pocket while Alan absorbs the extra cost."
+    "charges to genuine glasses sales - the patient pays less out-of-pocket while Alan absorbs the extra cost."
 ), 0.55, 1.94, 12.1, 0.55, size=11, color=DGRAY, wrap=True)
 
 # two provider cards
@@ -284,7 +284,7 @@ for xi, name, score, status, pct, n_active, n_dual, extra in [
     (0.3,  "Kylian's Frames",    54, "needs_review",
      76, 13, 10, "Also had one month where billings suddenly spiked 5× above normal"),
     (6.68, "Roudoudou Lentilles", 40, "needs_review",
-     100, 12, 12, "Every single active month had both categories — 100% of the time"),
+     100, 12, 12, "Every single active month had both categories - 100% of the time"),
 ]:
     rect(sl, xi, 2.68, 6.28, 4.12, fill=WHITE, line=MGRAY)
     rect(sl, xi, 2.68, 6.28, 0.08, fill=ORANGE)
@@ -305,10 +305,10 @@ for xi, name, score, status, pct, n_active, n_dual, extra in [
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 6 — Pattern 2: Billing Spikes + Multi-Rule Providers
+# SLIDE 6 - Pattern 2: Billing Spikes + Multi-Rule Providers
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Pattern 2 — Sudden Unexplained Billing Spikes", q_tag="Q1",
+header(sl, "Pattern 2 - Sudden Unexplained Billing Spikes", q_tag="Q1",
        subtitle="Some providers had months where billings jumped dramatically above their own historical average")
 footer(sl)
 
@@ -318,18 +318,18 @@ rect(sl, 0.3, 1.55, 0.12,  0.78, fill=RED)
 tb(sl, "Why is this suspicious?", 0.55, 1.62, 4.0, 0.32, size=12, bold=True, color=NAVY)
 tb(sl, (
     "A sudden spike well above a provider's own normal billing level can indicate a burst of "
-    "fictitious or inflated claims — especially when it coincides with the co-billing pattern above."
+    "fictitious or inflated claims - especially when it coincides with the co-billing pattern above."
 ), 0.55, 1.93, 12.1, 0.35, size=11, color=DGRAY, wrap=True)
 
 # three provider cards
 spike_providers = [
     ("Mike Lunettes",        96, "auto_held", 3, "85% co-billing rate across all months"),
-    ("Penthievre Alambics",  78, "auto_held", 2, "94% co-billing rate — highest in dataset"),
-    ("Queen Optics",         99, "auto_held", 3, "96% co-billing rate — near-universal"),
+    ("Penthievre Alambics",  78, "auto_held", 2, "94% co-billing rate - highest in dataset"),
+    ("Queen Optics",         99, "auto_held", 3, "96% co-billing rate - near-universal"),
 ]
 for k, (name, score, status, n_spikes, cobill_note) in enumerate(spike_providers):
     xi = 0.3 + k * 4.32
-    rect(sl, xi, 2.45, 4.1, 4.3, fill=WHITE, line=MGRAY)
+    rect(sl, xi, 2.45, 4.1, 3.6, fill=WHITE, line=MGRAY)
     rect(sl, xi, 2.45, 4.1, 0.08, fill=RED)
     tb(sl, name, xi+0.15, 2.62, 3.55, 0.38, size=13, bold=True, color=NAVY)
     score_pill(sl, score, xi+2.55, 2.57, w=1.45, h=0.44)
@@ -345,43 +345,43 @@ for k, (name, score, status, n_spikes, cobill_note) in enumerate(spike_providers
     tb(sl, "Also: co-billing", xi+0.25, 4.45, 3.55, 0.28, size=10, bold=True, color=NAVY)
     tb(sl, cobill_note, xi+0.25, 4.73, 3.55, 0.35, size=10, color=DGRAY, wrap=True)
 
-    tb(sl, "Two independent signals → score 100", xi+0.15, 5.28, 3.8, 0.32,
+    tb(sl, "Two independent signals → score 100", xi+0.15, 5.22, 3.8, 0.32,
        size=10, bold=True, color=RED, wrap=True)
 
 tb(sl, "When two unrelated fraud signals appear simultaneously it dramatically increases confidence the provider is acting fraudulently.",
-   0.3, 6.65, 12.7, 0.38, size=11, color=DGRAY, italic=True, align=PP_ALIGN.CENTER, wrap=True)
+   0.3, 6.3, 12.7, 0.38, size=11, color=DGRAY, italic=True, align=PP_ALIGN.CENTER, wrap=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 7 — Pattern 3: Repeated Amounts + Most Complex Case
+# SLIDE 7 - Pattern 3: Repeated Amounts + Most Complex Case
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Pattern 3 — Identical Amounts Billed Repeatedly", q_tag="Q1",
+header(sl, "Pattern 3 - Identical Amounts Billed Repeatedly", q_tag="Q1",
        subtitle="The exact same euro amount appearing 3 or more times within a 12-month period")
 footer(sl)
 
 # What's suspicious
-rect(sl, 0.3, 1.55, 12.73, 0.75, fill=LGRAY)
-rect(sl, 0.3, 1.55, 0.12,  0.75, fill=BLUE)
+rect(sl, 0.3, 1.55, 12.73, 0.9, fill=LGRAY)
+rect(sl, 0.3, 1.55, 0.12,  0.9, fill=BLUE)
 tb(sl, "Why is this suspicious?", 0.55, 1.62, 4.0, 0.32, size=12, bold=True, color=NAVY)
 tb(sl, (
     "Real claims vary naturally. When the exact same euro amount appears over and over for the same "
     "provider and product category, it suggests the claims may be copy-pasted fabrications rather than genuine billing."
-), 0.55, 1.93, 12.1, 0.32, size=11, color=DGRAY, wrap=True)
+), 0.55, 1.93, 12.1, 0.48, size=11, color=DGRAY, wrap=True)
 
 # Runner Glasses
-rect(sl, 0.3, 2.42, 5.95, 4.38, fill=WHITE, line=MGRAY)
-rect(sl, 0.3, 2.42, 5.95, 0.08, fill=BLUE)
-tb(sl, "Runner Glasses", 0.5, 2.58, 3.6, 0.38, size=14, bold=True, color=NAVY)
-score_pill(sl, 74, 4.55, 2.53, w=1.28, h=0.44)
-status_pill(sl, "auto_held", 0.5, 3.04)
+rect(sl, 0.3, 2.6, 5.95, 4.15, fill=WHITE, line=MGRAY)
+rect(sl, 0.3, 2.6, 5.95, 0.08, fill=BLUE)
+tb(sl, "Runner Glasses", 0.5, 2.76, 3.6, 0.38, size=14, bold=True, color=NAVY)
+score_pill(sl, 74, 4.55, 2.71, w=1.28, h=0.44)
+status_pill(sl, "auto_held", 0.5, 3.22)
 
-tb(sl, "Three separate repeated-amount patterns detected:", 0.5, 3.55, 5.5, 0.32,
+tb(sl, "Three separate repeated-amount patterns detected:", 0.5, 3.72, 5.5, 0.32,
    size=11, bold=True, color=NAVY)
 
-rect(sl, 0.5, 3.9, 5.55, 0.35, fill=NAVY)
+rect(sl, 0.5, 4.07, 5.55, 0.35, fill=NAVY)
 for lbl, xi in zip(["Amount", "Category", "How many times"], [0.5, 2.1, 3.7]):
-    tb(sl, lbl, xi+0.1, 3.92, 1.5, 0.27, size=9, bold=True, color=WHITE)
+    tb(sl, lbl, xi+0.1, 4.09, 1.5, 0.27, size=9, bold=True, color=WHITE)
 
 for j, (amt, cat, occ) in enumerate([
     ("€ 850.00", "Glasses",  "4 times in 12 months"),
@@ -389,44 +389,44 @@ for j, (amt, cat, occ) in enumerate([
     ("€ 650.00", "Glasses",  "3 times in 12 months"),
 ]):
     bg = LGRAY if j % 2 == 0 else WHITE
-    rect(sl, 0.5, 4.28+j*0.38, 5.55, 0.36, fill=bg)
-    tb(sl, amt, 0.62, 4.3+j*0.38, 1.5, 0.26, size=11, bold=True, color=NAVY)
-    tb(sl, cat, 2.22, 4.3+j*0.38, 1.5, 0.26, size=11, color=DGRAY)
-    tb(sl, occ, 3.82, 4.3+j*0.38, 2.1, 0.26, size=11, color=DGRAY)
+    rect(sl, 0.5, 4.45+j*0.38, 5.55, 0.36, fill=bg)
+    tb(sl, amt, 0.62, 4.47+j*0.38, 1.5, 0.26, size=11, bold=True, color=NAVY)
+    tb(sl, cat, 2.22, 4.47+j*0.38, 1.5, 0.26, size=11, color=DGRAY)
+    tb(sl, occ, 3.82, 4.47+j*0.38, 2.1, 0.26, size=11, color=DGRAY)
 
 tb(sl, "Also had co-billing in 55% of months → total score 74",
-   0.5, 5.5, 5.5, 0.32, size=11, bold=True, color=RED)
+   0.5, 5.65, 5.5, 0.32, size=11, bold=True, color=RED)
 
-# Les lunettes à Soso — all 3 patterns
-rect(sl, 6.65, 2.42, 6.35, 4.38, fill=WHITE, line=MGRAY)
-rect(sl, 6.65, 2.42, 6.35, 0.08, fill=RED)
-tb(sl, "Les Lunettes à Soso", 6.85, 2.58, 4.0, 0.38, size=14, bold=True, color=NAVY)
-score_pill(sl, 84, 11.4, 2.53, w=1.28, h=0.44)
-status_pill(sl, "auto_held", 6.85, 3.04)
+# Les lunettes à Soso - all 3 patterns
+rect(sl, 6.65, 2.6, 6.35, 4.15, fill=WHITE, line=MGRAY)
+rect(sl, 6.65, 2.6, 6.35, 0.08, fill=RED)
+tb(sl, "Les Lunettes à Soso", 6.85, 2.76, 4.0, 0.38, size=14, bold=True, color=NAVY)
+score_pill(sl, 84, 11.4, 2.71, w=1.28, h=0.44)
+status_pill(sl, "auto_held", 6.85, 3.22)
 
-rect(sl, 6.85, 3.55, 6.0, 0.4, fill=RED)
+rect(sl, 6.85, 3.72, 6.0, 0.4, fill=RED)
 tb(sl, "The only provider to trigger all three patterns",
-   6.95, 3.58, 5.8, 0.32, size=11, bold=True, color=WHITE)
+   6.95, 3.75, 5.8, 0.32, size=11, bold=True, color=WHITE)
 
 for j, (label, detail) in enumerate([
     ("Co-billing",          "77% of months had both glasses + contacts billed"),
     ("Billing spike",       "1 month jumped to over 5× their normal billing level"),
     ("Repeated amounts",    "2 separate amounts repeated 3+ times each"),
 ]):
-    rect(sl, 6.85, 4.0+j*0.62, 6.0, 0.55, fill=LGRAY if j % 2 == 0 else WHITE)
-    tb(sl, label,  7.0, 4.03+j*0.62, 2.2, 0.32, size=11, bold=True, color=NAVY)
-    tb(sl, detail, 9.3, 4.03+j*0.62, 3.4, 0.45, size=10, color=DGRAY, wrap=True)
+    rect(sl, 6.85, 4.18+j*0.58, 6.0, 0.52, fill=LGRAY if j % 2 == 0 else WHITE)
+    tb(sl, label,  7.0, 4.21+j*0.58, 2.2, 0.3, size=11, bold=True, color=NAVY)
+    tb(sl, detail, 9.3, 4.21+j*0.58, 3.4, 0.42, size=10, color=DGRAY, wrap=True)
 
-rect(sl, 6.85, 5.9, 6.0, 0.75, fill=LRED)
+rect(sl, 6.85, 5.98, 6.0, 0.65, fill=LRED)
 tb(sl, "Three separate, independent signals → highest confidence fraud case in the dataset.",
-   7.0, 5.97, 5.7, 0.6, size=11, color=RED, bold=True, wrap=True)
+   7.0, 6.03, 5.7, 0.55, size=11, color=RED, bold=True, wrap=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 8 — Pattern 4: Round Number Billing
+# SLIDE 8 - Pattern 4: Round Number Billing
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Pattern 4 — Systematic Round-Number Billing", q_tag="Q1",
+header(sl, "Pattern 4 - Systematic Round-Number Billing", q_tag="Q1",
        subtitle="Providers who consistently bill exact round sums (e.g. 300€, 600€) rather than realistic irregular amounts")
 footer(sl)
 
@@ -435,15 +435,15 @@ rect(sl, 0.3, 1.55, 12.73, 0.85, fill=RGBColor(0xE8, 0xF4, 0xFD))
 rect(sl, 0.3, 1.55, 0.12, 0.85, fill=BLUE)
 tb(sl, "Why is this suspicious?", 0.55, 1.62, 5.0, 0.32, size=12, bold=True, color=NAVY)
 tb(sl, (
-    "Real optical purchases — glasses frames, lenses, fitting — never add up to a perfectly round number. "
+    "Real optical purchases - glasses frames, lenses, fitting - never add up to a perfectly round number. "
     "Amounts like €349.91 or €127.50 reflect actual product pricing. When a provider bills €300.00, €600.00, "
     "€200.00 every single month with no variation in cents, it strongly suggests fabricated charges rather than genuine sales."
 ), 0.55, 1.93, 12.1, 0.42, size=11, color=DGRAY, wrap=True)
 
-# Runner Glasses — main example
+# Runner Glasses - main example
 rect(sl, 0.3, 2.55, 6.1, 4.2, fill=WHITE, line=MGRAY)
 rect(sl, 0.3, 2.55, 6.1, 0.08, fill=BLUE)
-tb(sl, "Runner Glasses — Contacts billing", 0.5, 2.7, 5.5, 0.38, size=13, bold=True, color=NAVY)
+tb(sl, "Runner Glasses - Contacts billing", 0.5, 2.7, 5.5, 0.38, size=13, bold=True, color=NAVY)
 
 rect(sl, 0.5, 3.18, 5.7, 0.62, fill=LRED)
 tb(sl, "100% of Lentilles claims are round multiples of 100€",
@@ -465,14 +465,14 @@ for j, (period, amt, is_round) in enumerate([
     rect(sl, 0.5, 4.3+j*0.34, 5.7, 0.32, fill=bg)
     tb(sl, period, 0.62, 4.32+j*0.34, 2.1, 0.24, size=10, color=DGRAY)
     tb(sl, amt,    2.92, 4.32+j*0.34, 1.7, 0.24, size=10, bold=True, color=RED if is_round else DGRAY)
-    tb(sl, "✓ Round" if is_round else "—", 4.82, 4.32+j*0.34, 1.2, 0.24,
+    tb(sl, "✓ Round" if is_round else "-", 4.82, 4.32+j*0.34, 1.2, 0.24,
        size=9, bold=is_round, color=RED if is_round else DGRAY)
 
-# Right panel — comparison + explanation
+# Right panel - comparison + explanation
 rect(sl, 6.6, 2.55, 6.4, 4.2, fill=WHITE, line=MGRAY)
 rect(sl, 6.6, 2.55, 6.4, 0.08, fill=NAVY)
-tb(sl, "Compare: Lunettes (glasses) — same provider", 6.8, 2.7, 6.0, 0.38, size=12, bold=True, color=NAVY)
-tb(sl, "Glasses amounts look realistic — irregular cents, normal price variation",
+tb(sl, "Compare: Lunettes (glasses) - same provider", 6.8, 2.7, 6.0, 0.38, size=12, bold=True, color=NAVY)
+tb(sl, "Glasses amounts look realistic - irregular cents, normal price variation",
    6.8, 3.12, 5.95, 0.32, size=10, color=DGRAY, italic=True)
 
 for j2, (period, amt) in enumerate([
@@ -491,7 +491,7 @@ for j2, (period, amt) in enumerate([
 
 rect(sl, 6.8, 5.65, 5.95, 0.75, fill=LRED)
 tb(sl, (
-    "Same provider, same months — glasses have real prices, contacts are always "
+    "Same provider, same months - glasses have real prices, contacts are always "
     "round numbers. The contacts charges appear fabricated."
 ), 6.92, 5.7, 5.7, 0.65, size=10, bold=True, color=RED, wrap=True)
 
@@ -500,21 +500,21 @@ tb(sl, "This pattern also appears in Roudoudou Lentilles, Kylian's Frames, and m
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 9 — Q2 Divider
+# SLIDE 9 - Q2 Divider
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
 section_divider(sl,
     q_num=2,
-    q_label="Detection System Design",
-    title="How did we turn these\npatterns into a system?",
-    description="4 automated detection rules · risk scoring pipeline · instant routing of every provider")
+    q_label="How would you identify if this trend could be related to fraud? What methods would you consider to investigate and potentially recover any misappropriated funds?",
+    title="Automated scoring +\npayment suspension",
+    description="4 detection rules applied to every provider · risk score routes each case · payments held where evidence is strong")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 9 — Detection Engine
+# SLIDE 10 - Detection Engine
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "The Detection Engine — 4 Rules, Automatically Applied to Every Provider",
+header(sl, "The Detection Engine - 4 Rules, Automatically Applied to Every Provider",
        q_tag="Q2",
        subtitle="Each rule adds points to a provider's risk score. Final score 0–100 determines what happens next.")
 footer(sl)
@@ -567,9 +567,9 @@ tb(sl, "What happens to the score", 0.4, 5.57, 12.5, 0.28,
    size=11, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
 
 for lbl, rng, desc, c, xi in [
-    ("Cleared",        "Score = 0",    "No flags — approved automatically",       GREEN,  0.3),
-    ("Under Review",   "Score 1–70",   "At least one signal — human reviews it",  ORANGE, 4.55),
-    ("Payments Held",  "Score > 70",   "Strong evidence — payments suspended",    RED,    8.8),
+    ("Cleared",        "Score = 0",    "No flags - approved automatically",       GREEN,  0.3),
+    ("Under Review",   "Score 1–70",   "At least one signal - human reviews it",  ORANGE, 4.55),
+    ("Payments Held",  "Score > 70",   "Strong evidence - payments suspended",    RED,    8.8),
 ]:
     rect(sl, xi, 5.95, 3.85, 1.1, fill=c)
     tb(sl, lbl,  xi+0.1, 5.97, 3.65, 0.4,  size=14, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
@@ -578,66 +578,11 @@ for lbl, rng, desc, c, xi in [
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 10 — App Introduction / Demo Transition
+# SLIDE 11 - Payments Held (auto_held providers) - Q2: Recovery of funds
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-
-rect(sl, 0, 0, 13.33, 7.5, fill=NAVY)
-rect(sl, 0, 0, 0.25, 7.5, fill=GOLD)
-rect(sl, 0, 6.05, 13.33, 1.45, fill=RGBColor(0x0D, 0x17, 0x30))
-
-tb(sl, "Beyond the analysis —", 0.55, 0.7, 10.0, 0.52,
-   size=20, color=MGRAY, italic=True)
-tb(sl, "we built a working system\naround it", 0.55, 1.3, 11.5, 1.6,
-   size=44, bold=True, color=WHITE)
-
-tb(sl, (
-    "The detection logic above is packaged into a full web application "
-    "that an ops team can actually use day-to-day: upload new claims, "
-    "run detection with one click, and review every flagged provider with full evidence."
-), 0.55, 3.1, 9.5, 0.85, size=14, color=MGRAY, wrap=True)
-
-# four feature chips
-for i, (title_txt, desc, c) in enumerate([
-    ("Dashboard",     "Live risk scores, flagged provider count, recent review activity",      BLUE),
-    ("Provider list", "Run detection · search and filter · see every provider's risk score",   TEAL),
-    ("Flag evidence", "Click any provider to see exactly which claims triggered each flag",    ORANGE),
-    ("Review panel",  "Submit a decision on any provider — approve, escalate, or blacklist",   GREEN),
-]):
-    xi = 0.55 + i * 3.2
-    rect(sl, xi, 4.1, 3.0, 1.7, fill=RGBColor(0x26, 0x35, 0x5C))
-    rect(sl, xi, 4.1, 3.0, 0.1, fill=c)
-    tb(sl, title_txt, xi+0.18, 4.28, 2.65, 0.38, size=13, bold=True, color=WHITE)
-    tb(sl, desc,      xi+0.18, 4.68, 2.65, 0.9,  size=10, color=MGRAY, wrap=True)
-
-tb(sl, "Built with  Next.js + TypeScript  ·  Python FastAPI  ·  PostgreSQL  ·  Full FR/EN localisation",
-   0.55, 6.18, 12.2, 0.38, size=10,
-   color=RGBColor(0x77, 0x88, 0xAA), align=PP_ALIGN.CENTER)
-
-# webapp URL
-rect(sl, 0.55, 5.62, 12.2, 0.38, fill=RGBColor(0x0D, 0x17, 0x30))
-tb(sl, "🌐  Live demo:  alan-production-0d14.up.railway.app",
-   0.65, 5.65, 12.0, 0.32, size=11, bold=True,
-   color=GOLD, align=PP_ALIGN.CENTER)
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 11 — Q3 Divider
-# ─────────────────────────────────────────────────────────────────────────────
-sl = prs.slides.add_slide(blank)
-section_divider(sl,
-    q_num=3,
-    q_label="Recommendations",
-    title="What should happen\nwith these providers?",
-    description="Immediate actions · system limitations · how to improve detection over time")
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 12 — Payments Held (auto_held providers)
-# ─────────────────────────────────────────────────────────────────────────────
-sl = prs.slides.add_slide(blank)
-header(sl, "Immediate Action Required — Payments Held", q_tag="Q3",
-       subtitle="5 providers automatically held — strong evidence across multiple independent fraud signals")
+header(sl, "Immediate Action Required - Payments Held", q_tag="Q2",
+       subtitle="5 providers automatically held - strong evidence across multiple independent fraud signals")
 footer(sl)
 
 held_providers = [
@@ -649,9 +594,9 @@ held_providers = [
      "Full audit + suspend all pending payments"),
     ("Les lunettes à Soso",  84, "Co-billing · spike · repeated amounts · round numbers",
      "Only provider to trigger all 4 rules. 4 completely independent fraud signals.",
-     "Priority audit — highest confidence fraud case"),
+     "Priority audit - highest confidence fraud case"),
     ("Penthievre alambics",  78, "Co-billing · billing spike · round numbers",
-     "94% co-billing rate — highest in dataset. 2 spike months.",
+     "94% co-billing rate - highest in dataset. 2 spike months.",
      "Full audit + suspend all pending payments"),
     ("Runner glasses",       74, "Co-billing · repeated amounts · round numbers",
      "55% co-billing. 3 repeated-amount patterns. All contacts: exact round euros.",
@@ -676,16 +621,16 @@ for k, (name, score, signals, detail, action) in enumerate(held_providers):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 13 — Needs Review + Cleared
+# SLIDE 12 - Needs Review + Cleared - Q2: Investigation
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
-header(sl, "Under Review & Cleared Providers", q_tag="Q3",
+header(sl, "Under Review & Cleared Providers", q_tag="Q2",
        subtitle="3 providers flagged for manual review · 4 providers fully cleared with no suspicious patterns")
 footer(sl)
 
 # Under review section
 rect(sl, 0.3, 1.55, 12.73, 0.35, fill=ORANGE)
-tb(sl, "Flagged for manual review  —  score below auto-hold threshold but patterns present",
+tb(sl, "Flagged for manual review  -  score below auto-hold threshold but patterns present",
    0.45, 1.58, 12.3, 0.28, size=11, bold=True, color=WHITE)
 
 review_providers = [
@@ -694,7 +639,7 @@ review_providers = [
     ("Roudoudou lentilles", 40, "Systematic co-billing (100% of months) · round numbers",
      "Every single active month had both categories billed. Low total due to no spike. Review co-billing pattern."),
     ("Voodoo",              15, "Round number billing detected",
-     "Low score but whole-euro billing pattern present. Monitor — flag for review if pattern continues next cycle."),
+     "Low score but whole-euro billing pattern present. Monitor - flag for review if pattern continues next cycle."),
 ]
 
 for k, (name, score, signals, detail) in enumerate(review_providers):
@@ -708,7 +653,7 @@ for k, (name, score, signals, detail) in enumerate(review_providers):
 
 # Cleared section
 rect(sl, 0.3, 4.6, 12.73, 0.35, fill=GREEN)
-tb(sl, "Cleared — no suspicious patterns detected",
+tb(sl, "Cleared - no suspicious patterns detected",
    0.45, 4.63, 12.3, 0.28, size=11, bold=True, color=WHITE)
 
 cleared = [("La classe à Dallas", 0), ("Cool optics", 0), ("abc optic", 0), ("22 optics", 0)]
@@ -721,18 +666,81 @@ for k, (name, score) in enumerate(cleared):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SLIDE 14 — How to Improve Over Time
+# SLIDE 13 - App Introduction / Demo Transition - Q2: Investigation tool
+# ─────────────────────────────────────────────────────────────────────────────
+sl = prs.slides.add_slide(blank)
+
+rect(sl, 0, 0, 13.33, 7.5, fill=NAVY)
+rect(sl, 0, 0, 0.25, 7.5, fill=GOLD)
+rect(sl, 0, 6.05, 13.33, 1.45, fill=RGBColor(0x0D, 0x17, 0x30))
+
+tb(sl, "Beyond the analysis -", 0.55, 0.7, 10.0, 0.52,
+   size=20, color=MGRAY, italic=True)
+tb(sl, "I built a working system\naround it", 0.55, 1.3, 11.5, 1.6,
+   size=44, bold=True, color=WHITE)
+
+tb(sl, (
+    "The detection logic above is packaged into a full web application "
+    "that an ops team can actually use day-to-day: upload new claims, "
+    "run detection with one click, and review every flagged provider with full evidence."
+), 0.55, 3.1, 9.5, 0.85, size=14, color=MGRAY, wrap=True)
+
+# four feature chips
+for i, (title_txt, desc, c) in enumerate([
+    ("Dashboard",     "Live risk scores, flagged provider count, recent review activity",      BLUE),
+    ("Provider list", "Run detection · search and filter · see every provider's risk score",   TEAL),
+    ("Flag evidence", "Click any provider to see exactly which claims triggered each flag",    ORANGE),
+    ("Review panel",  "Submit a decision on any provider - approve, escalate, or blacklist",   GREEN),
+]):
+    xi = 0.55 + i * 3.2
+    rect(sl, xi, 4.1, 3.0, 1.7, fill=RGBColor(0x26, 0x35, 0x5C))
+    rect(sl, xi, 4.1, 3.0, 0.1, fill=c)
+    tb(sl, title_txt, xi+0.18, 4.28, 2.65, 0.38, size=13, bold=True, color=WHITE)
+    tb(sl, desc,      xi+0.18, 4.68, 2.65, 0.9,  size=10, color=MGRAY, wrap=True)
+
+tb(sl, "Built with  Next.js + TypeScript  ·  Python FastAPI  ·  PostgreSQL  ·  Full FR/EN localisation",
+   0.55, 6.18, 12.2, 0.38, size=10,
+   color=RGBColor(0x77, 0x88, 0xAA), align=PP_ALIGN.CENTER)
+
+# webapp URL - clickable hyperlink
+rect(sl, 0.55, 5.62, 12.2, 0.38, fill=RGBColor(0x0D, 0x17, 0x30))
+url_box = sl.shapes.add_textbox(Inches(0.65), Inches(5.65), Inches(12.0), Inches(0.32))
+url_box.word_wrap = False
+url_tf = url_box.text_frame
+url_p = url_tf.paragraphs[0]
+url_p.alignment = PP_ALIGN.CENTER
+url_r = url_p.add_run()
+url_r.text = "🌐  Live demo:  alan-production-0d14.up.railway.app"
+url_r.font.size = Pt(11)
+url_r.font.bold = True
+url_r.font.color.rgb = GOLD
+url_r.hyperlink.address = "https://alan-production-0d14.up.railway.app"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SLIDE 14 - Q3 Divider
+# ─────────────────────────────────────────────────────────────────────────────
+sl = prs.slides.add_slide(blank)
+section_divider(sl,
+    q_num=3,
+    q_label="Based on your analysis, what proactive actions would you take or initiate to prevent similar fraud in the future?",
+    title="Better data, ongoing\nmonitoring, smarter rules",
+    description="Immediate improvements · network-level detection · seasonal calibration · ML scoring")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SLIDE 15 - How to Improve Over Time
 # ─────────────────────────────────────────────────────────────────────────────
 sl = prs.slides.add_slide(blank)
 header(sl, "How to Improve Detection Over Time", q_tag="Q3",
-       subtitle="Current system catches clear patterns — here's how to make it more precise and harder to game")
+       subtitle="Current system catches clear patterns - here's how to make it more precise and harder to game")
 footer(sl)
 
 improvements = [
     (BLUE,   "Member-level data",
      "Get individual claim-level data instead of monthly aggregates.",
-     "Currently we detect co-billing at the provider level — we can't confirm it's the same patient "
-     "being billed for both glasses and contacts. With member IDs per claim, we could detect the "
+     "Currently co-billing is detected at the provider level - it's not possible to confirm it's the same patient "
+     "being billed for both glasses and contacts. With member IDs per claim, I could detect the "
      "exact fraud scenario: one patient billed for both products in the same month.",
      "Higher precision · fewer false positives · unambiguous evidence for legal action"),
     (TEAL,   "Geographic clustering",
@@ -751,7 +759,7 @@ improvements = [
      "Train a model on confirmed fraud cases to replace fixed point weights.",
      "The current 4-rule system uses fixed scores (+20, +25, +15, +15) that were chosen "
      "manually. A supervised ML model trained on confirmed fraud outcomes would learn which "
-     "combinations of signals are most predictive — and weight them accordingly.",
+     "combinations of signals are most predictive - and weight them accordingly.",
      "Dynamic weights · adapts as fraud patterns evolve"),
 ]
 
