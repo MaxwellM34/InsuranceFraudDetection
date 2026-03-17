@@ -614,6 +614,150 @@ tb(sl, "Built with  Next.js + TypeScript  ·  Python FastAPI  ·  PostgreSQL  ·
    0.55, 6.18, 12.2, 0.38, size=10,
    color=RGBColor(0x77, 0x88, 0xAA), align=PP_ALIGN.CENTER)
 
+# webapp URL
+rect(sl, 0.55, 5.62, 12.2, 0.38, fill=RGBColor(0x0D, 0x17, 0x30))
+tb(sl, "🌐  Live demo:  alan-production-0d14.up.railway.app",
+   0.65, 5.65, 12.0, 0.32, size=11, bold=True,
+   color=GOLD, align=PP_ALIGN.CENTER)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SLIDE 11a — System Architecture
+# ─────────────────────────────────────────────────────────────────────────────
+sl = prs.slides.add_slide(blank)
+header(sl, "How the System Is Built", q_tag="Q2",
+       subtitle="A simple three-layer web application — data in, detection engine, human review out")
+footer(sl)
+
+# Arrow helper
+def arrow(sl, x1, y, x2, label=""):
+    rect(sl, x1, y+0.12, x2-x1-0.15, 0.08, fill=MGRAY)
+    # arrowhead triangle approximation with a small rect
+    rect(sl, x2-0.18, y+0.03, 0.18, 0.28, fill=MGRAY)
+    if label:
+        tb(sl, label, x1, y+0.22, x2-x1, 0.25, size=8, color=DGRAY,
+           align=PP_ALIGN.CENTER, italic=True)
+
+# Layer boxes
+layers = [
+    (0.3,  "BROWSER",        "Next.js Frontend",
+     ["Dashboard overview", "Provider risk table", "Flag evidence viewer", "Review submit panel", "CSV import"], BLUE),
+    (4.3,  "API SERVER",     "Python FastAPI Backend",
+     ["Auth (demo token / Clerk)", "Claims import & storage", "Detection engine runner", "Provider scoring", "Review actions"], TEAL),
+    (8.3,  "DATABASE",       "PostgreSQL",
+     ["claims table", "providers table", "fraud_flags table", "review_actions table", ""], NAVY),
+]
+
+for lx, layer_label, title, items, c in layers:
+    rect(sl, lx, 1.55, 3.7, 5.35, fill=WHITE, line=MGRAY)
+    rect(sl, lx, 1.55, 3.7, 0.45, fill=c)
+    tb(sl, layer_label, lx+0.15, 1.57, 3.4, 0.22, size=8, bold=True, color=WHITE)
+    tb(sl, title, lx+0.15, 1.8, 3.4, 0.28, size=12, bold=True, color=WHITE)
+    for j, item in enumerate(items):
+        if item:
+            rect(sl, lx+0.2, 2.15+j*0.57, 3.3, 0.48, fill=LGRAY)
+            tb(sl, item, lx+0.35, 2.22+j*0.57, 3.0, 0.32, size=10, color=NAVY)
+
+# Arrows between layers
+arrow(sl, 4.05, 3.6, 4.3, "HTTP / JSON")
+arrow(sl, 8.05, 3.6, 8.3, "SQL / asyncpg")
+
+# Bottom notes
+rect(sl, 0.3, 7.0, 12.73, 0.38, fill=NAVY)
+tb(sl, "Deployed on Railway · Postgres managed · Frontend & backend as separate services · Auth required on all API endpoints",
+   0.4, 7.02, 12.5, 0.3, size=9, color=WHITE, align=PP_ALIGN.CENTER)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SLIDE 11b — App Screenshots (Dashboard + Providers)
+# ─────────────────────────────────────────────────────────────────────────────
+sl = prs.slides.add_slide(blank)
+header(sl, "The App — Dashboard & Provider Views", q_tag="Q2",
+       subtitle="alan-production-0d14.up.railway.app  ·  Login: demo mode (alanadmin)")
+footer(sl)
+
+# ── LEFT: Dashboard mockup ──
+rect(sl, 0.3, 1.55, 6.2, 5.35, fill=LGRAY, line=MGRAY)
+# top bar
+rect(sl, 0.3, 1.55, 6.2, 0.38, fill=NAVY)
+tb(sl, "Dashboard  —  Fraud detection overview", 0.45, 1.58, 5.5, 0.28,
+   size=9, bold=True, color=WHITE)
+
+# stat cards row
+for i, (val, lbl, c) in enumerate([
+    ("12", "TOTAL PROVIDERS", NAVY),
+    ("3",  "FLAGGED",         ORANGE),
+    ("5",  "HELD",            RED),
+    ("245k€", "REIMBURSED",   GREEN),
+]):
+    cx = 0.38 + i * 1.52
+    rect(sl, cx, 2.02, 1.44, 0.78, fill=WHITE, line=MGRAY)
+    rect(sl, cx, 2.02, 1.44, 0.1, fill=c)
+    tb(sl, val, cx+0.08, 2.18, 1.28, 0.35, size=16, bold=True, color=c)
+    tb(sl, lbl, cx+0.08, 2.53, 1.28, 0.22, size=6, color=DGRAY)
+
+# bar chart mockup
+rect(sl, 0.38, 2.92, 6.04, 1.85, fill=WHITE, line=MGRAY)
+tb(sl, "Top 10 providers by risk score", 0.5, 2.96, 4.0, 0.28,
+   size=9, bold=True, color=NAVY)
+bar_data = [100, 96, 84, 78, 74, 54, 40, 15, 0, 0]
+bar_colors = [RED, RED, RED, RED, RED, ORANGE, ORANGE, ORANGE, GREEN, GREEN]
+for i, (bv, bc) in enumerate(zip(bar_data, bar_colors)):
+    bh = (bv / 100) * 1.1
+    rect(sl, 0.48 + i*0.58, 4.77 - bh, 0.44, max(bh, 0.04), fill=bc)
+
+# recent activity row
+rect(sl, 0.38, 4.85, 6.04, 0.42, fill=LGRAY)
+tb(sl, "Recent activity:  No review decisions yet",
+   0.5, 4.9, 5.7, 0.28, size=8, color=DGRAY, italic=True)
+
+rect(sl, 0.38, 5.32, 6.04, 0.45, fill=LRED)
+tb(sl, "⚠  5 providers are currently held pending review",
+   0.5, 5.37, 5.7, 0.3, size=9, bold=True, color=RED)
+
+# ── RIGHT: Providers list mockup ──
+rect(sl, 6.75, 1.55, 6.25, 5.35, fill=LGRAY, line=MGRAY)
+rect(sl, 6.75, 1.55, 6.25, 0.38, fill=NAVY)
+tb(sl, "Providers  —  12 registered providers", 6.9, 1.58, 5.7, 0.28,
+   size=9, bold=True, color=WHITE)
+
+# Run detection button
+rect(sl, 9.8, 1.58, 1.8, 0.28, fill=NAVY)
+tb(sl, "▶  Run detection", 9.82, 1.6, 1.76, 0.24,
+   size=7, bold=True, color=WHITE, align=PP_ALIGN.CENTER)
+
+# Table header
+rect(sl, 6.83, 2.02, 6.09, 0.3, fill=NAVY)
+for lbl, px in [("PROVIDER", 6.9), ("SCORE", 9.5), ("STATUS", 10.5)]:
+    tb(sl, lbl, px, 2.05, 1.2, 0.22, size=7, bold=True, color=WHITE)
+
+prov_rows = [
+    ("Queen optics",        "99/100", RED,    "Auto-held"),
+    ("Mike lunettes",       "96/100", RED,    "Auto-held"),
+    ("Les lunettes à Soso", "84/100", RED,    "Auto-held"),
+    ("Penthievre alambics", "78/100", RED,    "Auto-held"),
+    ("Runner glasses",      "74/100", RED,    "Auto-held"),
+    ("Kylian's frames",     "54/100", ORANGE, "Needs review"),
+    ("Roudoudou lentilles", "40/100", ORANGE, "Needs review"),
+    ("Voodoo",              "15/100", ORANGE, "Needs review"),
+    ("La classe à Dallas",  "0/100",  GREEN,  "Auto-approved"),
+]
+for j, (name, score, sc, status) in enumerate(prov_rows):
+    bg = RGBColor(0xFF, 0xED, 0xED) if sc == RED else (
+         RGBColor(0xFF, 0xF6, 0xED) if sc == ORANGE else RGBColor(0xF0, 0xF9, 0xF2))
+    rect(sl, 6.83, 2.35+j*0.34, 6.09, 0.32, fill=bg)
+    tb(sl, name,   6.9,  2.38+j*0.34, 2.5, 0.24, size=8,  color=DGRAY)
+    tb(sl, score,  9.5,  2.38+j*0.34, 0.9, 0.24, size=9,  bold=True, color=sc)
+    tb(sl, status, 10.5, 2.38+j*0.34, 2.1, 0.24, size=7,  bold=True, color=sc)
+
+rect(sl, 6.83, 5.42, 6.09, 0.35, fill=NAVY)
+tb(sl, "Click any provider → full flag evidence + review panel",
+   6.9, 5.46, 5.9, 0.26, size=8, color=WHITE, align=PP_ALIGN.CENTER)
+
+# caption
+tb(sl, "← Dashboard overview          Providers list with live risk scores →",
+   0.3, 6.95, 12.7, 0.3, size=9, color=DGRAY, align=PP_ALIGN.CENTER, italic=True)
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SLIDE 11 — Q3 Divider
